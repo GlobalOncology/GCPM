@@ -9,6 +9,13 @@ TODO: Write a project description
 * PostgreSQL 9+ [How to install](http://exponential.io/blog/2015/02/21/install-postgresql-on-mac-os-x-via-brew/)
 * Cron or similar tool is required for periodically sending notification emails
 
+## Vagrant
+If you wish to have a hands-off setup, you can get the application running with vagrant by running `vagrant up` in the project root.
+
+### Database connection
+You can connect to the database using GUI tools like pgAdmin by connecting via port 5432 on your local machine with the following credentials:
+ 
+
 ## Installation
 
 Install project dependencies:
