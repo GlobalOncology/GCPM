@@ -4,7 +4,7 @@
 
   App.Collection.FundingSources = Backbone.Collection.extend({
 
-    url: '/api/organizations?funding_source=true',
+    url: '/api/organizations',
 
     comparator: function(item) {
       return item.get('name');
