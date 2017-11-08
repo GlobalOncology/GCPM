@@ -91,6 +91,9 @@ In RSpec, use the 'js: true' flag. See the [capybara documentation](http://rubyd
 This project requires a [CartoDB](https://cartodb.com/) account to be configured in the .env files
 In your CartoDB account, you should add [these custom functions](extra/cartodb_queries.sql)
 
+## Restoring from .bak backup
+To restore from a .bak backup file, simple run the command `pg_restore -h localhost -p 5432 -U postgres -d gcpm_development -v "backup_file.bak" --single-transaction --clean`, and enter the password.
+
 ## Contributing
 
 1. Fork it!
