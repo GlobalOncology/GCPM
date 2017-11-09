@@ -70,7 +70,9 @@
         case 'events':
           return 'events';
         case 'people':
-          return 'people'
+          return 'people';
+        case 'network':
+          return 'network';
         default:
           return 'projects'
       }
