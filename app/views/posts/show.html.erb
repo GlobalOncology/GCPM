@@ -4,14 +4,14 @@
   <meta property="og:locale" content="en_US" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="<%= strip_tags(@post.title) %>" />
-  <meta property="og:description" content="<%= strip_tags(@post.body)[0...255].strip() + "..." %>" />
+  <meta property="og:description" content="<%= strip_tags(@post.body).truncate(255).strip() %>" />
   <meta property="og:url" content="<%= request.original_url %>" />
   <meta property="og:site_name" content="The GO Map" />
   <!--<meta property="og:image" content="" />-->
   <!-- twitter tags -->
   <meta name="twitter:card" content="summary"/>
   <meta name="twitter:title" content="<%= strip_tags(@post.title) %>"/>
-  <meta name="twitter:description" content="<%= strip_tags(@post.body)[0...255].strip() + "..." %>"/>
+  <meta name="twitter:description" content="<%= strip_tags(@post.body).truncate(255).strip() %>"/>
   <meta name="twitter:site" content="@globalonc"/>
   <!--<meta name="twitter:image" content=""/>-->
   <% if investigator.twitter_account.present? %>
