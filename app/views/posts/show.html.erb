@@ -1,4 +1,6 @@
+<% title @post.title %>
 <% investigator = User.find_by_id(@post.user_id) %>
+<% content_for :description do %><%= strip_tags(@post.body).strip().truncate(120) %><% end %>
 
 <div class="l-grid">
   <section class="l-content-section wrapper">
