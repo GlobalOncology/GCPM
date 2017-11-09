@@ -1,4 +1,7 @@
 <% title @project.title %>
+<% content_for :description do %>
+ <%= strip_tags(@project.summary)[0...255].strip() %>
+<% end %>
 <section class="l-app -full -secondary">
   <% if !browser.device.mobile? %>
     <%= render "desktop_show_intro" %>
