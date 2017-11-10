@@ -14,7 +14,7 @@ class OrganizationsController < ApplicationController
     gon.server_params = { 'organizations[]': @organization.id }
     gon.isMobile = browser.device.mobile?
 
-    limit = 12 + (@page * 9)
+    limit = 12 + (@page * 30)
 
     @events = Event.fetch_all(organizations: @organization.id)
     @projects = Project.fetch_all(organizations: @organization.id).includes(:investigators).order('projects.created_at DESC')
@@ -25,6 +25,8 @@ class OrganizationsController < ApplicationController
     @projects.each do |p|
       @network.concat(p.investigators)
     end
+
+    @network.sort_by!{|obj| obj.name}
 
     @network = @network.uniq()
 
