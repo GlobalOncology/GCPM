@@ -23,7 +23,6 @@
             <% end %>
             <p><%= investigator.present? && investigator.try(:name) %></p>
           <% end%>
-
         </div>
         <div class="column small-12 medium-4 -align-right">
           <button class="c-btn -secondary -inverse -mg-left js-share-button" data-actiona="save"><%= t 'share' %></button>
@@ -41,6 +40,16 @@
         <div class="column small-12">
           <div class="wrapper">
             <div class="content"><%= @post.body.html_safe %></div>
+            <% if @post.categories.size > 0 %>
+              <div class="post-categories">
+                <span>Categories:</span>
+                <ul>
+                  <% @post.categories.each do |cat| %>
+                    <li><%= cat.name %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
             <% if current_user && current_user.id === @post.user_id %>
               <%= link_to 'Edit', edit_post_path(@post), class: 'c-btn -secondary' %>
             <% end %>

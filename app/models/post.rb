@@ -22,6 +22,8 @@ class Post < ApplicationRecord
   has_many :organizations, through: :pins, source: :pinable, source_type: 'Organization'
   has_many :cancer_types,  through: :pins, source: :pinable, source_type: 'CancerType'
   has_many :specialities,  through: :pins, source: :pinable, source_type: 'Speciality'
+  has_many :category_posts
+  has_many :categories,    through: :category_posts
 
   validates_presence_of :title, :body
 
