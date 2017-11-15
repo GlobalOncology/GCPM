@@ -37,6 +37,16 @@ class Post < ApplicationRecord
     end
   end
 
+  def all_categories=(categories)
+    self.categories = categories.map do |name|
+      Category.where(name: name.strip).first_or_create!
+    end
+  end
+
+  def all_categories
+    self.categories.map(&:name).join(', ')
+  end
+
   private
 
     def notify_users_for_update
