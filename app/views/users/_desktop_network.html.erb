@@ -123,13 +123,13 @@
 
       <article>
         <div class="l-content wrapper">
-          <h2><%= t 'organizations' %> (<%= @followOrganizations.size %>)</h2>
-          <% if !@followOrganizations.any? %>
+          <h2><%= t 'organizations' %> (<%= if !@followOrganizations.nil? then @followOrganizations.size else 0 end %>)</h2>
+          <% if @followOrganizations.nil? || !@followOrganizations.any? %>
             <p>No organizations</p>
           <% end %>
         </div>
 
-        <% if @followOrganizations.any? %>
+        <% if !@followOrganizations.nil? && @followOrganizations.any? %>
           <div class="wrapper list">
             <ul class="c-list -mg-bottom">
               <% @followOrganizations.each do |o| %>
