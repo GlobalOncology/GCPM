@@ -22,6 +22,11 @@ class UsersController < ApplicationController
     limit = 12 + (@page * 9)
 
     @projects = @user.projects.order('created_at DESC')
+    if @user.investigator.present?
+      @investigatorProjects = @user.investigator.projects.order('created_at DESC')
+      @projects.merge(@investigatorProjects)
+    end 
+
     @people = @user.investigator
     @posts = @user.posts
     @events = @user.events.order_by_upcoming
