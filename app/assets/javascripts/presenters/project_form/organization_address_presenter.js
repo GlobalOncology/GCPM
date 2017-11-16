@@ -16,7 +16,7 @@
       label: 'Address',
       placeholder: 'Select location',
       blank: null,
-      addNew: false,
+      addNew: true,
       select2Options: {
         minimumResultsForSearch: -1
         // closeOnSelect: false
@@ -49,6 +49,16 @@
       this.select.on('change', function(newState){
         this.setState(newState);
         App.trigger('OrganizationAddress:change', this.state.attributes);
+      }, this);
+      this.select.on('new', function(){
+        console.log(this.state.attributes);
+        alert('new address');
+        /*
+        this.organizationForm = new App.Presenter.OrganizationForm({
+          DOMelementId: this.DOMelementId
+        });
+        this.organizationForm.openForm();
+        */
       }, this);
     },
 
