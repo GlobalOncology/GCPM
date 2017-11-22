@@ -35,6 +35,7 @@ class Event < ApplicationRecord
   after_create :notify_users_for_create, if: 'user_id.present?'
 
   belongs_to :user, inverse_of: :events
+  belongs_to :organization
 
   validates_presence_of :title, :description, :start_date, :end_date
   validates :slug, presence: true, format: { with: /\A[^\s!#$%^&*()（）=+;:'"\[\]\{\}|\\\/<>?,]+\z/,
