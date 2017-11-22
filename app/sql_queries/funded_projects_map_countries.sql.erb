@@ -1,0 +1,20 @@
+select count(distinct(projects.id)),
+countries.id as location_id,
+countries.country_name as location_name,
+countries.country_centroid as centroid,
+countries.country_iso_3 as iso,
+COALESCE(sum(CASE WHEN memberships.membership_type = 0 THEN 1 ELSE 0 END),1) AS project_leads,
+COALESCE(sum(CASE WHEN memberships.membership_type = 1 THEN 1 ELSE 0 END),1) AS collaborators,
+'country' as type
+from projects
+  inner join memberships on memberships.project_id = projects.id
+  inner join research_units on memberships.research_unit_id = research_units.id
+  inner join investigators on investigators.id = research_units.investigator_id
+  inner join addresses on research_units.address_id = addresses.id
+  inner join countries on addresses.country_id = countries.id
+  inner join organizations on organizations.id = addresses.organization_id
+  <% if @params[:organizations] %>
+    inner join funders on funders.project_id = projects.id
+    and funders.organization_id in <%= "#{'(' + @params[:organizations].join(',') + ')'}" %>
+  <% end %>
+group by location_id, location_name, centroid, iso
