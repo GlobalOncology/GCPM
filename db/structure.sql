@@ -1285,6 +1285,105 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip inet,
+    last_sign_in_ip inet,
+    confirmation_token character varying,
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    failed_attempts integer DEFAULT 0 NOT NULL,
+    unlock_token character varying,
+    locked_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    name character varying,
+    "position" character varying,
+    twitter_account character varying,
+    linkedin_account character varying,
+    pubmed character varying,
+    authentication_token character varying,
+    token_expires_at timestamp without time zone,
+    role integer DEFAULT 0 NOT NULL,
+    avatar character varying,
+    notifications_count integer DEFAULT 0,
+    notifications_mailer boolean DEFAULT true,
+    is_active boolean DEFAULT true
+);
+
+
+--
+-- Name: COLUMN users.role; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN users.role IS 'User role { user: 0, admin: 1 }';
+
+
+--
+-- Name: searches; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW searches AS
+ SELECT cancer_types.id AS searchable_id,
+    'CancerType'::text AS searchable_type,
+    cancer_types.name AS term
+   FROM cancer_types
+UNION
+ SELECT events.id AS searchable_id,
+    'Event'::text AS searchable_type,
+    events.title AS term
+   FROM events
+UNION
+ SELECT investigators.id AS searchable_id,
+    'Investigator'::text AS searchable_type,
+    investigators.name AS term
+   FROM investigators
+UNION
+ SELECT projects.id AS searchable_id,
+    'Project'::text AS searchable_type,
+    projects.title AS term
+   FROM projects
+  WHERE (projects.status = 1)
+UNION
+ SELECT projects.id AS searchable_id,
+    'Project'::text AS searchable_type,
+    projects.summary AS term
+   FROM projects
+  WHERE (projects.status = 1)
+UNION
+ SELECT organizations.id AS searchable_id,
+    'Organization'::text AS searchable_type,
+    organizations.name AS term
+   FROM organizations
+UNION
+ SELECT organizations.id AS searchable_id,
+    'Organization'::text AS searchable_type,
+    organizations.acronym AS term
+   FROM organizations
+UNION
+ SELECT users.id AS searchable_id,
+    'User'::text AS searchable_type,
+    users.name AS term
+   FROM users
+UNION
+ SELECT users.id AS searchable_id,
+    'User'::text AS searchable_type,
+    users."position" AS term
+   FROM users;
+
+
+--
 -- Name: specialities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1349,52 +1448,6 @@ CREATE SEQUENCE static_pages_id_seq
 --
 
 ALTER SEQUENCE static_pages_id_seq OWNED BY static_pages.id;
-
-
---
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE users (
-    id integer NOT NULL,
-    email character varying DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying,
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    sign_in_count integer DEFAULT 0 NOT NULL,
-    current_sign_in_at timestamp without time zone,
-    last_sign_in_at timestamp without time zone,
-    current_sign_in_ip inet,
-    last_sign_in_ip inet,
-    confirmation_token character varying,
-    confirmed_at timestamp without time zone,
-    confirmation_sent_at timestamp without time zone,
-    failed_attempts integer DEFAULT 0 NOT NULL,
-    unlock_token character varying,
-    locked_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    name character varying,
-    "position" character varying,
-    twitter_account character varying,
-    linkedin_account character varying,
-    pubmed character varying,
-    authentication_token character varying,
-    token_expires_at timestamp without time zone,
-    role integer DEFAULT 0 NOT NULL,
-    avatar character varying,
-    notifications_count integer DEFAULT 0,
-    notifications_mailer boolean DEFAULT true,
-    is_active boolean DEFAULT true
-);
-
-
---
--- Name: COLUMN users.role; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN users.role IS 'User role { user: 0, admin: 1 }';
 
 
 --

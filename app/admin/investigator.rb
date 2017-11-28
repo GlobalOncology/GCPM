@@ -45,10 +45,24 @@ ActiveAdmin.register Investigator do
   end
 
   form do |f|
+    # so we can only get users that don't already have an associated investigator
+    investigatorUsers = Investigator.where.not(user_id: nil).pluck(:user_id)
+    # if the investigator being edited already has an assigned user
+    if f.object.user.present? && f.object.user.id
+      # the user should be in the investigatorUsers, so we need to fix that
+      idPos = investigatorUsers.index(f.object.user.id);
+      # hopefully we know where to remove the user's ID from now
+      if (idPos != nil)
+        investigatorUsers.delete_at(idPos);
+      end
+    end
+    # get the users for the dropdown
+    users = User.where.not(id: investigatorUsers).order(:name).map{ |u| [u.name, u.id] }
     f.semantic_errors
     f.inputs do
       f.input :name
       f.input :email
+      f.input :user, as: :select, collection: users
       f.input :website
     end
     f.actions
