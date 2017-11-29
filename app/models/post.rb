@@ -12,6 +12,8 @@
 
 class Post < ApplicationRecord
   include ActAsFeatured
+  include PgSearch
+
   belongs_to :user
 
   after_create :notify_users_for_update
@@ -24,6 +26,15 @@ class Post < ApplicationRecord
   has_many :specialities,  through: :pins, source: :pinable, source_type: 'Speciality'
 
   validates_presence_of :title, :body
+
+  pg_search_scope :search_by_content,
+    :against => {
+      :title => 'A',
+      :body => 'B'
+    },
+    :using => {
+      :tsearch => {:prefix => true}
+    }
 
   default_scope { order('created_at DESC') }
 

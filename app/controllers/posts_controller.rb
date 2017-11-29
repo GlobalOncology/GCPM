@@ -5,8 +5,9 @@ class PostsController < InheritedResources::Base
   before_action :check_user, only: [:new, :create, :index]
 
   def index
-    if current_user
-      redirect_to user_path(id: current_user.id, data: 'posts')
+    @posts = Post.all.order(created_at: :desc)
+    if params[:q].present?
+      @posts = @posts.search_by_content(params[:q]);
     end
   end
 
