@@ -5,6 +5,53 @@
   &.-social {
     flex-wrap: nowrap;
   }
+  li{
+    position: relative;
+    .megamenu{
+      white-space: normal;
+      position: absolute;
+      left: -999em;
+      display: none;
+      background: #FFF;
+      width: 820px;
+      padding: 15px 15px 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      ul{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        li{
+          text-align: center;
+          display: inline-block;
+          width: 33%;
+          margin: 0;
+          padding: 0 0 10px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          &:nth-child(3n-1){ // 3-1, 6-1, 9-1, etc
+            padding-left: 10px;
+            padding-right: 10px;
+          }
+          a{
+            display: inline;
+            padding: 0;
+            line-height: 1em;
+            &:hover{
+              color: #5aade4;
+            }
+          }
+        }
+      }
+    }
+    &:hover .megamenu{
+      display: block;
+      left: auto;
+      top: 100%;
+      right: 0;
+    }
+  }
 }
 
 .c-nav,
