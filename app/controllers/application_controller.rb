@@ -8,8 +8,13 @@ class ApplicationController < ActionController::Base
   before_action :expire_xhr_requests
   before_action :build_user_data
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :get_specialities
   after_action  :set_csrf_cookie, :store_location
   after_action  :store_location
+
+  def get_specialities
+    @mega_menu_specialities = Speciality.all.order(:name)
+  end
 
   def build_user_data
     if current_user.present?
