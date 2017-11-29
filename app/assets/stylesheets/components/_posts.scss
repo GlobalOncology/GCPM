@@ -1,0 +1,14 @@
+.posts-index{
+  .search-wrapper{
+    padding-left: 15px;
+  }
+  .search-field{
+    position: relative;
+    padding-right: 42px;
+    button{
+      position: absolute;
+      right: 0;
+      top: 3px;
+    }
+  }
+}

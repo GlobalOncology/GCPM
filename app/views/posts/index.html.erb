@@ -1,18 +1,33 @@
 
-<div class="l-content">
+<div class="l-content posts-index">
   <div class="wrapper">
+    <h1>Posts</h1>
     <div class="row collapse">
-      <h1>Posts</h1>
-      <% @posts.each do |p| %>
-        <div class="column small-12">
+      <div class="column small-9">
+        <% @posts.each do |p| %>
           <div class="c-card">
             <h3>
               <%= link_to p.title, p %>
             </h3>
             <p><%= p.body && p.body.html_safe %></p>
           </div>
+        <% end %>
+      </div>
+      <div class="column small-3">
+        <div class="search-wrapper">
+          <form method="GET" action="/posts">
+            <div class="form-row">
+              <div class="input">
+                <div class="search-field">
+                  <input type="text" name="q" placeholder="Search blog posts" value="<%= params[:q] %>" />
+                  <button class="c-btn -with-icon -mini" type="submit">
+                    <svg class="c-icon -medium -primary"><use xlink:href="#icon-search"></use></svg>
+                  </button>
+              </div>
+            </div>
+          </form>
         </div>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>
