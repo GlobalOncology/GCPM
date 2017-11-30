@@ -21,11 +21,16 @@ class UsersController < ApplicationController
 
     limit = 12 + (@page * 9)
 
-    @projects = @user.projects.order('created_at DESC')
+    @projects = @user.projects.to_a
+
     if @user.investigator.present?
-      @investigatorProjects = @user.investigator.projects.order('created_at DESC')
-      @projects.merge(@investigatorProjects)
-    end 
+      @investigatorProjects = @user.investigator.projects
+      if @investigatorProjects.size > 0
+        @projects.concat(@investigatorProjects.to_a)
+      end
+    end
+
+    @projects = @projects.sort{ |a, b| b.created_at <=> a.created_at }
 
     @people = @user.investigator
     @posts = @user.posts
@@ -53,7 +58,7 @@ class UsersController < ApplicationController
       @more = (@conversations.size > @items.size)
       @items_total = @conversations.size
     else
-      @items = @projects.limit(limit)
+      @items = @projects.slice(0, limit)
       @more = (@projects.size > @items.size)
       @items_total = @projects.size
     end
