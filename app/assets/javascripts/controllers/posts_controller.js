@@ -8,6 +8,19 @@
 
     index: function(params) {
       new App.Presenter.ShowMore(params);
+      var spinner = '<div class="c-spinner -start"><div class="spinner-box"><div class="icon"></div></div></div>';
+      var bindShowMoreClick =  function(){
+        $('#showMoreButton').on('click', function(){
+          $(this).html(spinner);
+        });
+      };
+
+      App.on('Blog:paginate', function(data){
+        Backbone.history.navigate(data.url);
+      });
+
+      App.on('Remote:load', bindShowMoreClick);
+      bindShowMoreClick();
     },
 
     show: function(params) {
