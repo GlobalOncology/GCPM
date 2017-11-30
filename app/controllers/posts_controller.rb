@@ -2,13 +2,27 @@ class PostsController < InheritedResources::Base
   load_and_authorize_resource
 
   before_action :set_user,    only: [:new, :create, :edit, :update]
-  before_action :check_user, only: [:new, :create, :index]
+  before_action :check_user, only: [:new, :create]
 
   def index
-    @posts = Post.all.order(created_at: :desc)
+    # which page are we on
+    @page = params.key?(:page) && params[:page] ? params[:page].to_i : 1
+
+    # how many posts should we show
+    limit = 10 * @page
+
+    # get all the posts
+    @posts = Post.all.order(updated_at: :desc)
+
+    # are we searching
     if params[:q].present?
-      @posts = @posts.search_by_content(params[:q]);
+      @posts = @posts.search_by_content(params[:q].strip);
     end
+
+    # figure out which posts to display, if there's more to display, and how many posts exist
+    @items = @posts.first(limit)
+    @more = (@posts.size > @items.size)
+    @items_total = @posts.size
   end
 
   def new

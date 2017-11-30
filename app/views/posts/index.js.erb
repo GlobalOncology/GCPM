@@ -1,0 +1,8 @@
+
+(function() {
+  'use strict'
+  var htmlContent = "<%= escape_javascript render(partial: "all_posts_list", locals: {items: @items, more: @more}) %>";
+  $('#posts-list').html(htmlContent);
+  App.trigger('Remote:load');
+})();
+

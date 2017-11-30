@@ -4,14 +4,7 @@
     <h1>Posts</h1>
     <div class="row collapse">
       <div class="column small-9">
-        <% @posts.each do |p| %>
-          <div class="c-card">
-            <h3>
-              <%= link_to p.title, p %>
-            </h3>
-            <p><%= p.body && p.body.html_safe %></p>
-          </div>
-        <% end %>
+        <div id="posts-list"><%= render(partial: "all_posts_list", locals: {items: @items, more: @more}) %></div>
       </div>
       <div class="column small-3">
         <div class="search-wrapper">

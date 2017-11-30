@@ -6,6 +6,10 @@
 
   _.extend(App.Controller.Posts.prototype, {
 
+    index: function(params) {
+      new App.Presenter.ShowMore(params);
+    },
+
     show: function(params) {
       new App.View.ShareButton({ el: '.js-share-button' });
       new App.Presenter.Share(params);

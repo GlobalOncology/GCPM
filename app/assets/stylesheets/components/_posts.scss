@@ -11,4 +11,19 @@
       top: 3px;
     }
   }
+  h3{
+    span{
+      display: inline-block;
+      &:not(:last-child){
+        padding-right: 10px;
+      }
+      & + span{
+        padding-left: 10px;
+      }
+      &.post-date{
+        border-left: 1px solid #000;
+        font-weight: normal;
+      }
+    }
+  }
 }
