@@ -1,16 +1,4 @@
 .posts-index{
-  .search-wrapper{
-    padding-left: 15px;
-  }
-  .search-field{
-    position: relative;
-    padding-right: 42px;
-    button{
-      position: absolute;
-      right: 0;
-      top: 3px;
-    }
-  }
   h3{
     span{
       display: inline-block;
@@ -24,6 +12,26 @@
         border-left: 1px solid #000;
         font-weight: normal;
       }
+    }
+  }
+}
+
+.post-show{
+  .share-container{
+    padding: 20px 0;
+    margin-left: -9px;
+  }
+}
+
+.posts-search-wrapper{
+  padding-left: 15px;
+  .search-field{
+    position: relative;
+    padding-right: 42px;
+    button{
+      position: absolute;
+      right: 0;
+      top: 3px;
     }
   }
 }

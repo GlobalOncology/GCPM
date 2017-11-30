@@ -1,0 +1,13 @@
+<div class="posts-search-wrapper">
+  <form method="GET" action="/posts">
+    <div class="form-row">
+      <div class="input">
+        <div class="search-field">
+          <input type="text" name="q" placeholder="Search blog posts" value="<%= params[:q] %>" />
+          <button class="c-btn -with-icon -mini" type="submit">
+            <svg class="c-icon -medium -primary"><use xlink:href="#icon-search"></use></svg>
+          </button>
+      </div>
+    </div>
+  </form>
+</div>

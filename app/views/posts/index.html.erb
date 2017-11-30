@@ -1,29 +1,15 @@
 
 <div class="l-content posts-index">
   <div class="wrapper">
-    <h1>Posts</h1>
+    <h1>Blog</h1>
+    <p class="lead">Lorem ipsum dolor sit amet.</p>
     <div class="row collapse">
       <div class="column small-9">
         <div id="posts-list"><%= render(partial: "all_posts_list", locals: {items: @items, more: @more}) %></div>
       </div>
       <div class="column small-3">
-        <div class="search-wrapper">
-          <form method="GET" action="/posts">
-            <div class="form-row">
-              <div class="input">
-                <div class="search-field">
-                  <input type="text" name="q" placeholder="Search blog posts" value="<%= params[:q] %>" />
-                  <button class="c-btn -with-icon -mini" type="submit">
-                    <svg class="c-icon -medium -primary"><use xlink:href="#icon-search"></use></svg>
-                  </button>
-              </div>
-            </div>
-          </form>
-        </div>
+        <%= render "search" %>
       </div>
     </div>
   </div>
 </div>
-
-
-<% link_to 'New Post', new_post_path %>

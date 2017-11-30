@@ -1,52 +1,47 @@
 <% investigator = User.find_by_id(@post.user_id) %>
-
-<div class="l-grid">
-  <section class="l-content-section wrapper">
-    <div class="wrapper">
-      <div class="row">
-        <div class="column small-12">
-          <h2><%= @post.title %></h2>
+<div class="l-content post-show">
+  <div class="wrapper">
+    <div class="row collapse">
+      <div class="column small-9">
+        <h1 class="post-title"><%= @post.title %></h1>
+        <h3 class="post-date"><%= @post.updated_at.strftime("%B %e, %Y") %></h3>
+        <div class="post-content"><%= @post.body.html_safe %></div>
+        <div class="share-container">
+          <button class="c-btn -secondary -thin -inverse -mg-left js-share-button" data-actiona="save">
+            <%= t 'share' %>
+          </button>
         </div>
+        <% if current_user && current_user.id === @post.user_id %>
+          <%= link_to 'Edit', edit_post_path(@post), class: 'c-btn -secondary' %>
+        <% end %>
+        <!--
+        <%= link_to user_path(:data => 'network', :id => investigator.id), class: 'investigator' do %>
+          <% if investigator.avatar.present? %>
+              <div class="c-avatar -ph -small -no-bg"
+                  style="background-image: url(<%= investigator.avatar_url(:thumb) %>)">
+            </div>
+          <% else %>
+              <div class="c-avatar -ph -small">
+              <%= render 'shared/placeholder', person: investigator, size: '-av-big' %>
+            </div>
+          <% end %>
+          <p><%= investigator.present? && investigator.try(:name) %></p>
+        <% end%>
+        -->
+        <div id="disqus_thread"></div>
+        <script>
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://the-go-map.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
       </div>
-      <div class="row">
-        <div class="column small-12 medium-8 align-middle">
-
-          <%= link_to user_path(:data => 'network', :id => investigator.id), class: 'investigator' do %>
-            <% if investigator.avatar.present? %>
-               <div class="c-avatar -ph -small -no-bg"
-                   style="background-image: url(<%= investigator.avatar_url(:thumb) %>)">
-              </div>
-            <% else %>
-               <div class="c-avatar -ph -small">
-                <%= render 'shared/placeholder', person: investigator, size: '-av-big' %>
-              </div>
-            <% end %>
-            <p><%= investigator.present? && investigator.try(:name) %></p>
-          <% end%>
-
-        </div>
-        <div class="column small-12 medium-4 -align-right">
-          <button class="c-btn -secondary -inverse -mg-left js-share-button" data-actiona="save"><%= t 'share' %></button>
-        </div>
-      </div>
-      <div class="column small-12 align-middle">
-        <p>Last update: <%= @post.updated_at.strftime("%Y-%m-%d") %></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="l-content-section wrapper">
-    <div class="wrapper">
-      <div class="row">
-        <div class="column small-12">
-          <div class="wrapper">
-            <div class="content"><%= @post.body.html_safe %></div>
-            <% if current_user && current_user.id === @post.user_id %>
-              <%= link_to 'Edit', edit_post_path(@post), class: 'c-btn -secondary' %>
-            <% end %>
-          </div>
-        </div>
+      <div class="column small-3">
+        <%= render "search" %>
       </div>
     </div>
-  </section>
+  </div>
 </div>
