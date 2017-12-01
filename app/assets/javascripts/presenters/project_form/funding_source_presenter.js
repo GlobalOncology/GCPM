@@ -20,12 +20,12 @@
       select2Options: {
         minimumInputLength: 3,
         ajax: {
-          url: '/api/organizations?funding_source=true',
+          url: '/api/organizations',
           delay: 150,
           cache: false,
           data: function (params) {
             var query = {
-              funding_source: true,
+              //funding_source: true,
               q: params.term,
               page: params.page || 1
             }

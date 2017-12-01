@@ -9,6 +9,13 @@ TODO: Write a project description
 * PostgreSQL 9+ [How to install](http://exponential.io/blog/2015/02/21/install-postgresql-on-mac-os-x-via-brew/)
 * Cron or similar tool is required for periodically sending notification emails
 
+## Vagrant
+If you wish to have a hands-off setup, you can get the application running with vagrant by running `vagrant up` in the project root.
+
+### Database connection
+You can connect to the database using GUI tools like pgAdmin by connecting via port 5432 on your local machine with the following credentials:
+ 
+
 ## Installation
 
 Install project dependencies:
@@ -83,6 +90,9 @@ In RSpec, use the 'js: true' flag. See the [capybara documentation](http://rubyd
 
 This project requires a [CartoDB](https://cartodb.com/) account to be configured in the .env files
 In your CartoDB account, you should add [these custom functions](extra/cartodb_queries.sql)
+
+## Restoring from .bak backup
+To restore from a .bak backup file, simple run the command `pg_restore -h localhost -p 5432 -U postgres -d gcpm_development -v "backup_file.bak" --single-transaction --clean`, and enter the password.
 
 ## Contributing
 
