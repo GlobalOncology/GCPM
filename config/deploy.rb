@@ -1,7 +1,7 @@
 lock '3.5.0'
 
 set :application, 'GCPM'
-set :repo_url, 'git@github.com:Vizzuality/GCPM.git'
+set :repo_url, 'git@github.com:GlobalOncology/GCPM.git'
 
 set :passenger_restart_with_touch, true
 
