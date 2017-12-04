@@ -85,6 +85,16 @@ from projects
       and (projects.end_date < date(<%= quote @params[:end_date] %>))
     <% end %>
     <% if @params[:user] %>
-      and project_users.user_id = <%= quote @params[:user] %> and project_users.is_approved = true
+      and (
+        project_users.user_id = <%= quote @params[:user] %> or
+        project_users.project_id in (
+          SELECT project_id FROM memberships WHERE research_unit_id IN (
+            SELECT id FROM research_units WHERE investigator_id = (
+              SELECT id FROM investigators WHERE user_id = <%= quote @params[:user] %>
+            )
+          )
+        )
+      )
+      and project_users.is_approved = true
     <% end %>
 group by project, title, location_name, location_country_name, location_city, location_line_1, location_line_2, location_line_3, location_postcode, location_state, centroid, iso, investigator_name, investigator_slug, investigator, is_project_lead, organization_name, organization_slug, organization
