@@ -24,6 +24,8 @@ class Post < ApplicationRecord
   has_many :organizations, through: :pins, source: :pinable, source_type: 'Organization'
   has_many :cancer_types,  through: :pins, source: :pinable, source_type: 'CancerType'
   has_many :specialities,  through: :pins, source: :pinable, source_type: 'Speciality'
+  has_many :category_posts
+  has_many :categories,    through: :category_posts
 
   validates_presence_of :title, :body
 
@@ -44,6 +46,16 @@ class Post < ApplicationRecord
         Pin.where(pinable_type: pinable_type.classify, pinable_id: pinable_id, post_id: self.id).first_or_create
       end
     end
+  end
+
+  def all_categories=(categories)
+    self.categories = categories.map do |name|
+      Category.where(name: name.strip).first_or_create!
+    end
+  end
+
+  def all_categories
+    self.categories.map(&:name).join(', ')
   end
 
   private

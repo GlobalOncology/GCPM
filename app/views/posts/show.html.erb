@@ -41,6 +41,16 @@
       </div>
       <div class="column small-3">
         <%= render "search" %>
+        <% if @post.categories.size > 0 %>
+          <div class="sidebar-box">
+            <h4>Categories:</h4>
+            <ul>
+              <% @post.categories.each do |cat| %>
+                <li><%= cat.name %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
         <% if @post.countries.size > 0 %>
           <div class="sidebar-box">
             <h4>Countries</h4>

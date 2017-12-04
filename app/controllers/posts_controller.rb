@@ -35,7 +35,8 @@ class PostsController < InheritedResources::Base
       'post[organizations][]': @post.organizations.pluck(:id),
       'post[projects][]': @post.projects.pluck(:id),
       'post[cancer_types][]': @post.cancer_types.pluck(:id),
-      'post[specialities][]': @post.specialities.pluck(:id)
+      'post[specialities][]': @post.specialities.pluck(:id),
+      'post[all_categories][]': @post.categories.pluck(:name)
     }
   end
 
@@ -66,13 +67,13 @@ class PostsController < InheritedResources::Base
     end
 
     def post_params
-      params.require(:post).permit(:title, :body, :user_id, { organizations: [] }, { cancer_types: [] }, { projects: [] }, { countries: [] }, { specialities: [] })
+      params.require(:post).permit(:title, :body, :user_id, { organizations: [] }, { cancer_types: [] }, { projects: [] }, { countries: [] }, { specialities: [] }, { all_categories: [] })
                            .except(:organizations, :cancer_types, :projects, :countries, :specialities)
     end
 
 
     def pins_params
-      params.require(:post).permit(:title, :body, :user_id, { organizations: [] }, { cancer_types: [] }, { projects: [] }, { countries: [] }, { specialities: [] })
+      params.require(:post).permit(:title, :body, :user_id, { organizations: [] }, { cancer_types: [] }, { projects: [] }, { countries: [] }, { specialities: [] }, { all_categories: [] })
                            .except(:title, :body, :user_id)
     end
 
