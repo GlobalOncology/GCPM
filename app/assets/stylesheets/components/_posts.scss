@@ -21,6 +21,32 @@
     padding: 20px 0;
     margin-left: -9px;
   }
+  form + .sidebar-box{
+    padding-top: 20px
+  }
+  .sidebar-box{
+    padding: 10px 0;
+    h4{
+      margin: 0;
+    }
+    ul{
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li{
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        &:not(:last-child):after {
+          display: inline-block;
+          content: ', ';
+        }
+      }
+    }
+    & + .sidebar-box{
+      border-top: 1px solid #E5E5E5;
+    }
+  }
 }
 
 .posts-search-wrapper{

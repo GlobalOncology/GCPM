@@ -41,6 +41,56 @@
       </div>
       <div class="column small-3">
         <%= render "search" %>
+        <% if @post.countries.size > 0 %>
+          <div class="sidebar-box">
+            <h4>Countries</h4>
+            <ul>
+              <% for country in @post.countries do %>
+                <li><%= link_to(country.country_name, country_path(country.country_iso_3)) %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <% if @post.projects.size > 0 %>
+          <div class="sidebar-box">
+            <h4>Projects</h4>
+            <ul>
+              <% for project in @post.projects do %>
+                <li><%= link_to(project.title, project_path(project)) %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <% if @post.organizations.size > 0 %>
+          <div class="sidebar-box">
+            <h4>Organizations</h4>
+            <ul>
+              <% for organization in @post.organizations do %>
+                <li><%= link_to(organization.name, organization_path(organization)) %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <% if @post.cancer_types.size > 0 %>
+          <div class="sidebar-box">
+            <h4>Cancer Types</h4>
+            <ul>
+              <% for cancer_type in @post.cancer_types do %>
+                <li><%= link_to(cancer_type.name, cancer_type_path(cancer_type)) %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <% if @post.specialities.size > 0 %>
+          <div class="sidebar-box">
+            <h4>Specialities</h4>
+            <ul>
+              <% for spec in @post.specialities do %>
+                <li><%= link_to(spec.name, speciality_path(spec)) %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>

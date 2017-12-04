@@ -20,7 +20,8 @@ class CountriesController < ApplicationController
     @events = Event.fetch_all(countries: params[:iso])
     @projects = Project.fetch_all(countries: params[:iso]).distinct.order('created_at DESC')
     @people = Investigator.fetch_all(countries: params[:iso]).distinct.order('created_at DESC')
-    @posts = @country.posts
+    @posts = []
+    #@posts = @country.posts
 
     if params.key?(:data) && params[:data] == 'events'
       @items = @events.limit(limit)
