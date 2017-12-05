@@ -16,12 +16,27 @@
     </article>
 
     <article>
+      <div class="l-content -br-bottom wrapper -no-br">
+        <h2>Followers (<%= @followers.size %>)</h2>
+
+        <% if !@followers.any? %>
+          <div class="list">
+            <p>No followers</p>
+          </div>
+        <% end %>
+      </div>
+      <div class="list">
+        <%= render 'followers/net_list', items: @followers %>
+      </div>
+    </article>
+
+    <article>
       <div class="l-content -br-bottom wrapper">
-        <h2><%= t 'users' %> (<%= @followUser.size %>)</h2>
+        <h2><%= t 'following' %> (<%= @followUser.size %>)</h2>
 
         <% if !@followUser.any? %>
           <div class="list">
-            <p>No Users</p>
+            <p>Not following any users</p>
           </div>
         <% end %>
       </div>
