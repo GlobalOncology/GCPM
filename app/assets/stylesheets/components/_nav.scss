@@ -44,6 +44,12 @@
           }
         }
       }
+      &.two-cols{
+        width: 620px;
+        ul li{
+          width: 49.5%;
+        }
+      }
     }
     &:hover .megamenu{
       display: block;
