@@ -53,7 +53,7 @@ class User < ApplicationRecord
   acts_as_follower
   acts_as_messageable
 
-  include Roleable
+  include Roleable, ActAsFeatured
 
   before_save  :check_authentication_token
   after_update :notify_users_for_update, if: 'name_changed? ||  position_changed? || pubmed_changed? || avatar_changed?'
