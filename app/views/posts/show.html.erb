@@ -1,7 +1,25 @@
 <% title @post.title %>
 <% investigator = User.find_by_id(@post.user_id) %>
 <% content_for :description do %><%= strip_tags(@post.body).strip().truncate(120) %><% end %>
-
+<% content_for :social_meta_tags do %>
+  <!-- opengraph tags -->
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="<%= strip_tags(@post.title) %>" />
+  <meta property="og:description" content="<%= strip_tags(@post.body).truncate(255).strip() %>" />
+  <meta property="og:url" content="<%= request.original_url %>" />
+  <meta property="og:site_name" content="The GO Map" />
+  <!--<meta property="og:image" content="" />-->
+  <!-- twitter tags -->
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="<%= strip_tags(@post.title) %>"/>
+  <meta name="twitter:description" content="<%= strip_tags(@post.body).truncate(255).strip() %>"/>
+  <meta name="twitter:site" content="@globalonc"/>
+  <!--<meta name="twitter:image" content=""/>-->
+  <% if investigator.twitter_account.present? %>
+  <meta name="twitter:creator" content="@<%= investigator.twitter_account %>" />
+  <% end %>
+<% end %>
 <div class="l-grid">
   <section class="l-content-section wrapper">
     <div class="wrapper">
