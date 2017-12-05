@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :expire_xhr_requests
   before_action :build_user_data
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :get_cancer_types
   after_action  :set_csrf_cookie, :store_location
   after_action  :store_location
 
@@ -34,6 +35,10 @@ class ApplicationController < ActionController::Base
       flash[:alert] = 'Unauthorized Access!'
       redirect_to root_path
     end
+  end
+
+  def get_cancer_types
+    @mega_menu_cancer_types = CancerType.all.order(:name)
   end
 
   rescue_from CanCan::AccessDenied do |exception|
