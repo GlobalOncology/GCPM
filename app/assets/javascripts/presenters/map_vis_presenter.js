@@ -64,18 +64,15 @@
     },
 
     getData: function(data) {
-      switch (data) {
-        case 'projects':
-          return 'projects';
-        case 'events':
-          return 'events';
-        case 'people':
-          return 'people';
-        case 'network':
-          return 'network';
-        default:
-          return 'projects'
+      var dataTypes = [
+        'projects', 'events', 'people', 'network', 'funded_projects'
+      ];
+
+      if (dataTypes.indexOf(data) > -1) {
+        return data;
       }
+
+      return 'projects';
     },
 
     /**

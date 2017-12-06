@@ -2,7 +2,7 @@ module Api
   module V1
     class MapController < ApiController
       def index
-        type  = params[:data] && (params[:data] == 'events' || params[:data] == 'people' || params[:data] == 'network') ? params[:data] : 'projects'
+        type  = params[:data] && (params[:data] == 'events' || params[:data] == 'people' || params[:data] == 'funded_projects' || params[:data] == 'network') ? params[:data] : 'projects'
         group = if params[:group] && ['countries', 'regions', 'points'].include?(params[:group])
                   params[:group]
                 elsif params[:id].present?
