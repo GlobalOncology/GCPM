@@ -1,5 +1,7 @@
 <% title @investigator.name %>
 <% inv_user = @investigator.user %>
+<% content_for :description do %><%= strip_tags(@investigator.name).strip().truncate(120) %><% end %>
+<% content_for :canonical do %><%= investigator_url(@investigator.slug_or_id) %><% end %>
 
 <section class="l-app -full -secondary">
   <% if !browser.device.mobile? %>

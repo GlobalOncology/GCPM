@@ -273,6 +273,69 @@ CREATE TABLE cancer_types_projects (
 
 
 --
+-- Name: categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE categories (
+    id integer NOT NULL,
+    name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE categories_id_seq OWNED BY categories.id;
+
+
+--
+-- Name: category_posts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE category_posts (
+    id integer NOT NULL,
+    post_id integer,
+    category_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: category_posts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE category_posts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: category_posts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE category_posts_id_seq OWNED BY category_posts.id;
+
+
+--
 -- Name: ckeditor_assets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -405,7 +468,8 @@ CREATE TABLE events (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     user_id integer,
-    slug character varying
+    slug character varying,
+    organization_id integer
 );
 
 
@@ -1285,6 +1349,105 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip inet,
+    last_sign_in_ip inet,
+    confirmation_token character varying,
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    failed_attempts integer DEFAULT 0 NOT NULL,
+    unlock_token character varying,
+    locked_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    name character varying,
+    "position" character varying,
+    twitter_account character varying,
+    linkedin_account character varying,
+    pubmed character varying,
+    authentication_token character varying,
+    token_expires_at timestamp without time zone,
+    role integer DEFAULT 0 NOT NULL,
+    avatar character varying,
+    notifications_count integer DEFAULT 0,
+    notifications_mailer boolean DEFAULT true,
+    is_active boolean DEFAULT true
+);
+
+
+--
+-- Name: COLUMN users.role; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN users.role IS 'User role { user: 0, admin: 1 }';
+
+
+--
+-- Name: searches; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW searches AS
+ SELECT cancer_types.id AS searchable_id,
+    'CancerType'::text AS searchable_type,
+    cancer_types.name AS term
+   FROM cancer_types
+UNION
+ SELECT events.id AS searchable_id,
+    'Event'::text AS searchable_type,
+    events.title AS term
+   FROM events
+UNION
+ SELECT investigators.id AS searchable_id,
+    'Investigator'::text AS searchable_type,
+    investigators.name AS term
+   FROM investigators
+UNION
+ SELECT projects.id AS searchable_id,
+    'Project'::text AS searchable_type,
+    projects.title AS term
+   FROM projects
+  WHERE (projects.status = 1)
+UNION
+ SELECT projects.id AS searchable_id,
+    'Project'::text AS searchable_type,
+    projects.summary AS term
+   FROM projects
+  WHERE (projects.status = 1)
+UNION
+ SELECT organizations.id AS searchable_id,
+    'Organization'::text AS searchable_type,
+    organizations.name AS term
+   FROM organizations
+UNION
+ SELECT organizations.id AS searchable_id,
+    'Organization'::text AS searchable_type,
+    organizations.acronym AS term
+   FROM organizations
+UNION
+ SELECT users.id AS searchable_id,
+    'User'::text AS searchable_type,
+    users.name AS term
+   FROM users
+UNION
+ SELECT users.id AS searchable_id,
+    'User'::text AS searchable_type,
+    users."position" AS term
+   FROM users;
+
+
+--
 -- Name: specialities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1349,52 +1512,6 @@ CREATE SEQUENCE static_pages_id_seq
 --
 
 ALTER SEQUENCE static_pages_id_seq OWNED BY static_pages.id;
-
-
---
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE users (
-    id integer NOT NULL,
-    email character varying DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying,
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    sign_in_count integer DEFAULT 0 NOT NULL,
-    current_sign_in_at timestamp without time zone,
-    last_sign_in_at timestamp without time zone,
-    current_sign_in_ip inet,
-    last_sign_in_ip inet,
-    confirmation_token character varying,
-    confirmed_at timestamp without time zone,
-    confirmation_sent_at timestamp without time zone,
-    failed_attempts integer DEFAULT 0 NOT NULL,
-    unlock_token character varying,
-    locked_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    name character varying,
-    "position" character varying,
-    twitter_account character varying,
-    linkedin_account character varying,
-    pubmed character varying,
-    authentication_token character varying,
-    token_expires_at timestamp without time zone,
-    role integer DEFAULT 0 NOT NULL,
-    avatar character varying,
-    notifications_count integer DEFAULT 0,
-    notifications_mailer boolean DEFAULT true,
-    is_active boolean DEFAULT true
-);
-
-
---
--- Name: COLUMN users.role; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN users.role IS 'User role { user: 0, admin: 1 }';
 
 
 --
@@ -1495,6 +1612,20 @@ ALTER TABLE ONLY agrupations ALTER COLUMN id SET DEFAULT nextval('agrupations_id
 --
 
 ALTER TABLE ONLY cancer_types ALTER COLUMN id SET DEFAULT nextval('cancer_types_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY category_posts ALTER COLUMN id SET DEFAULT nextval('category_posts_id_seq'::regclass);
 
 
 --
@@ -1775,6 +1906,22 @@ ALTER TABLE ONLY ar_internal_metadata
 
 ALTER TABLE ONLY cancer_types
     ADD CONSTRAINT cancer_types_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: category_posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY category_posts
+    ADD CONSTRAINT category_posts_pkey PRIMARY KEY (id);
 
 
 --
@@ -2182,10 +2329,31 @@ CREATE INDEX index_cancer_types_projects_on_project_id ON cancer_types_projects 
 
 
 --
+-- Name: index_category_posts_on_category_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_category_posts_on_category_id ON category_posts USING btree (category_id);
+
+
+--
+-- Name: index_category_posts_on_post_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_category_posts_on_post_id ON category_posts USING btree (post_id);
+
+
+--
 -- Name: index_events_on_description; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_events_on_description ON events USING gin (to_tsvector('english'::regconfig, description));
+
+
+--
+-- Name: index_events_on_organization_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_events_on_organization_id ON events USING btree (organization_id);
 
 
 --
@@ -2567,11 +2735,27 @@ CREATE UNIQUE INDEX index_users_on_unlock_token ON users USING btree (unlock_tok
 
 
 --
+-- Name: fk_rails_163b5130b5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY events
+    ADD CONSTRAINT fk_rails_163b5130b5 FOREIGN KEY (organization_id) REFERENCES organizations(id);
+
+
+--
 -- Name: fk_rails_5373344100; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY identities
     ADD CONSTRAINT fk_rails_5373344100 FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: fk_rails_a38b6b5eda; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY category_posts
+    ADD CONSTRAINT fk_rails_a38b6b5eda FOREIGN KEY (post_id) REFERENCES posts(id);
 
 
 --
@@ -2588,6 +2772,14 @@ ALTER TABLE ONLY notifications
 
 ALTER TABLE ONLY investigators
     ADD CONSTRAINT fk_rails_b1fd6cb9ed FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: fk_rails_c4f738b06d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY category_posts
+    ADD CONSTRAINT fk_rails_c4f738b06d FOREIGN KEY (category_id) REFERENCES categories(id);
 
 
 --
@@ -2620,6 +2812,6 @@ ALTER TABLE ONLY mailboxer_receipts
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20160623091908'), ('20160623092157'), ('20160623093250'), ('20160629161033'), ('20160629161041'), ('20160707072908'), ('20160707073642'), ('20160708083044'), ('20160711105858'), ('20160711114901'), ('20160718224524'), ('20160718225032'), ('20160718232806'), ('20160720162924'), ('20160721141137'), ('20160725182233'), ('20160726110350'), ('20160729093255'), ('20160729125019'), ('20160729151912'), ('20160801160550'), ('20160801165924'), ('20160801171206'), ('20160802121917'), ('20160802174327'), ('20160803012223'), ('20160803012429'), ('20160803012636'), ('20160803014813'), ('20160803143833'), ('20160804100620'), ('20160804113911'), ('20161004100702'), ('20161018055907'), ('20161018091446'), ('20161018104312'), ('20161018111559'), ('20161018125246'), ('20161020122456'), ('20161020163951'), ('20161021073852'), ('20161021080737'), ('20161021110751'), ('20161021110752'), ('20161021110753'), ('20161021110754'), ('20161026160423'), ('20161027160501'), ('20161103101432'), ('20161103101657'), ('20161104114308'), ('20161104114309'), ('20161107103717'), ('20161107110201'), ('20161110093643'), ('20161110111836'), ('20161111100700'), ('20161115090954'), ('20161123114428'), ('20161124170341'), ('20161205162814'), ('20161206131728'), ('20161207105758'), ('20161207154856'), ('20161207155941'), ('20161230115447'), ('20170116150713'), ('20170118105416'), ('20170307090458'), ('20170310122840');
+INSERT INTO schema_migrations (version) VALUES ('20160623091908'), ('20160623092157'), ('20160623093250'), ('20160629161033'), ('20160629161041'), ('20160707072908'), ('20160707073642'), ('20160708083044'), ('20160711105858'), ('20160711114901'), ('20160718224524'), ('20160718225032'), ('20160718232806'), ('20160720162924'), ('20160721141137'), ('20160725182233'), ('20160726110350'), ('20160729093255'), ('20160729125019'), ('20160729151912'), ('20160801160550'), ('20160801165924'), ('20160801171206'), ('20160802121917'), ('20160802174327'), ('20160803012223'), ('20160803012429'), ('20160803012636'), ('20160803014813'), ('20160803143833'), ('20160804100620'), ('20160804113911'), ('20161004100702'), ('20161018055907'), ('20161018091446'), ('20161018104312'), ('20161018111559'), ('20161018125246'), ('20161020122456'), ('20161020163951'), ('20161021073852'), ('20161021080737'), ('20161021110751'), ('20161021110752'), ('20161021110753'), ('20161021110754'), ('20161026160423'), ('20161027160501'), ('20161103101432'), ('20161103101657'), ('20161104114308'), ('20161104114309'), ('20161107103717'), ('20161107110201'), ('20161110093643'), ('20161110111836'), ('20161111100700'), ('20161115090954'), ('20161123114428'), ('20161124170341'), ('20161205162814'), ('20161206131728'), ('20161207105758'), ('20161207154856'), ('20161207155941'), ('20161230115447'), ('20170116150713'), ('20170118105416'), ('20170307090458'), ('20170310122840'), ('20171114212538'), ('20171114212550'), ('20171122203607');
 
 

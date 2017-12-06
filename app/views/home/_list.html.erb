@@ -106,6 +106,32 @@
               </div>
             </div>
           </div>
+        <% when 'user' %>
+          <div class="column small-12 medium-4">
+            <div class="c-card -person">
+              <div class="icons">
+                <% if featured.avatar.present? %>
+                  <div class="c-avatar -ph -mg-bt"
+                     style="background-image: url(<%= featured.avatar_url(:thumb) %>)">
+                  </div>
+                <% else %>
+                  <div class="c-avatar -ph -mg-bt">
+                    <%= render 'shared/placeholder', person: featured, size: '-av-normal' %>
+                  </div>
+                <% end %>
+              </div>
+
+              <div>
+                <h2><%= link_to featured.name, user_path(featured.slug_or_id) %></h2>
+                <% if featured.investigator.present? %>
+                  <% featured.investigator.organizations.each do |o|%>
+                    <h3><%= link_to o.name, organization_path(o.slug_or_id) %></h3>
+                    <h3><%= o.addresses.map{|a| [a.city, a.country_name]}.uniq.join(', ') %></h3>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
 
         <% when 'picture' %>
           <div class="c-picture column small-12 medium-4" style="background-image: url(<%= featured.image_url(:square) %>)">

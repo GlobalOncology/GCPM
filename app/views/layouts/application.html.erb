@@ -11,6 +11,12 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
     <% end %>
 
+    <meta name="description" content="<%= yield :description %>">
+
+    <% if content_for?(:canonical) %>
+        <link rel="canonical" href="<%= yield :canonical %>">
+    <% end %>
+
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= Gon::Base.render_data %>
@@ -20,6 +26,7 @@
 
     <%= javascript_include_tag 'https://www.google-analytics.com/analytics.js', async: true %>
     <%= javascript_include_tag 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInitGFW', async: true %>
+    <%= yield :social_meta_tags %>
   </head>
   <body>
     <%= render "shared/icons" %>

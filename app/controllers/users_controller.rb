@@ -21,11 +21,23 @@ class UsersController < ApplicationController
 
     limit = 12 + (@page * 9)
 
-    @projects = @user.projects.order('created_at DESC')
+    @projects = @user.projects.to_a
+
+    if @user.investigator.present?
+      @investigatorProjects = @user.investigator.projects
+      if @investigatorProjects.size > 0
+        @projects.concat(@investigatorProjects.to_a)
+      end
+    end
+
+    @projects = @projects.sort{ |a, b| b.created_at <=> a.created_at }
+
     @people = @user.investigator
     @posts = @user.posts
     @events = @user.events.order_by_upcoming
     @conversations = Mailboxer::Conversation.joins(:receipts).where(mailboxer_receipts: { receiver_id: current_user.id, deleted: false }).uniq.page(params[:page]).order('created_at DESC')
+    @followingCount = @user.following_users_count || 0
+    @followersCount = @user.followers_by_type_count('User') || 0
 
     if params.key?(:data) && params[:data] == 'network'
       @followProjects = @user.following_by_type('Project')
@@ -35,6 +47,7 @@ class UsersController < ApplicationController
       @followCancerTypes = @user.following_by_type('CancerType')
       @followCountries = @user.following_by_type('Country')
       @followOrganizations = @user.following_by_type('Organization')
+      @followers = @user.followers_by_type('User')
     elsif params.key?(:data) && params[:data] == 'posts'
       @items = @posts.first(limit)
       @more = (@posts.size > @items.size)
@@ -48,7 +61,7 @@ class UsersController < ApplicationController
       @more = (@conversations.size > @items.size)
       @items_total = @conversations.size
     else
-      @items = @projects.limit(limit)
+      @items = @projects.slice(0, limit)
       @more = (@projects.size > @items.size)
       @items_total = @projects.size
     end
@@ -58,9 +71,6 @@ class UsersController < ApplicationController
       @followed_id = @user.id
       @followed_resource = 'User'
     end
-
-    @following = @user.following_users_count || 0
-    @followers = @user.followers_by_type_count('User') || 0
 
     respond_with(@items)
   end

@@ -1,4 +1,6 @@
 <% title @event.title %>
+<% content_for :description do %><%= strip_tags(@event.description).strip().truncate(120) %><% end %>
+<% content_for :canonical do %><%= event_url(@event.slug_or_id) %><% end %>
 
 <section class="l-app -full -secondary">
   <% if !browser.device.mobile? %>

@@ -6,7 +6,28 @@
 </li>
 <li class="<%= active_page?(cancers_path) ? '-active' : '' %>">
   <%= link_to (t 'cancer_types'), cancers_path %>
+  <% if !browser.device.mobile? && @mega_menu_cancer_types.size > 0 %>
+    <div class="megamenu">
+      <ul>
+        <% for cancerType in @mega_menu_cancer_types %>
+          <li><%= link_to(cancerType.name, cancer_path(cancerType.slug)) %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 </li>
+<% if !browser.device.mobile? && @mega_menu_specialities.size > 0 %>
+<li>
+  <a href="#">Specialities</a>
+  <div class="megamenu two-cols">
+    <ul>
+      <% for spec in @mega_menu_specialities %>
+        <li><%= link_to(spec.name, speciality_path(spec.slug)) %></li>
+      <% end %>
+    </ul>
+  </div>
+</li>
+<% end %>
 <% if path_exists?(:about_path) %>
   <li class="<%= active_page?(about_path) ? '-active' : '' %>">
     <%= link_to (t 'about'), about_path %>

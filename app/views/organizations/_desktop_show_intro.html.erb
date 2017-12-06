@@ -7,8 +7,12 @@
   <div class="wrapper">
     <div class="row collapse">
       <div class="column small-12 medium-8">
-        <h2><%= @organization.name %></h2>
-
+        <h1>
+          <%= @organization.name %>
+          <% if @organization.acronym != nil %>
+            <br><small><%= @organization.acronym %></small>
+          <% end %>
+        </h1>
         <div class="row">
           <div class="column small-12 medium-6">
             <ul class="c-pipe-list">
@@ -30,6 +34,9 @@
               <th><%= t 'projects' %></th>
               <th><%= t 'people' %></th>
               <th><%= t 'posts' %></th>
+              <th><%= t 'network' %></th>
+              <th><%= t 'funded_projects' %></th>
+              <th><%= t 'events' %></th>
             </tr>
           </thead>
           <tbody>
@@ -37,6 +44,9 @@
               <td><%= @projects.size %></td>
               <td><%= @people.size %></td>
               <td><%= @posts.size %></td>
+              <td><%= @network.size %></td>
+              <td><%= @funded_projects.size %></td>
+              <td><%= @events.size %></td>
             </tr>
           </tbody>
         </table>

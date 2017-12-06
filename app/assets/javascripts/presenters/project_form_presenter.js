@@ -101,6 +101,7 @@
      */
     handleSubmit: function() {
       this.buildRequest();
+
       new Promise(function(resolve, reject){
         var url = "/api/projects?token="+window.AUTH_TOKEN;
         var q = new XMLHttpRequest();
@@ -184,6 +185,7 @@
             var address = this.state.attributes["address-"+id];
             var lead = this.state.attributes["lead"];
             var obj = {};
+            var addressIsInt = !isNaN(parseInt(address));
 
             // LEAD
             if(lead == "lead-"+id){
@@ -207,17 +209,30 @@
               // EE
               if(!isNaN(parseInt(investigator)) && !isNaN(parseInt(organization))){
                 obj.research_unit_attributes = {
-                  investigator_id: investigator,
-                  address_id: address
+                  investigator_id: investigator
                 };
+                if (addressIsInt) {
+                  obj.research_unit_attributes.address_id = address;
+                } else {
+                  address = JSON.parse(address);
+                  obj.research_unit_attributes.address_attributes = {
+                    country_id: address.organizationCountry,
+                    city: address.organizationCity,
+                    latitude: address.organizationLatitude,
+                    longitude: address.organizationLongitude,
+                    organization_id: organization
+                  };
+                }
               } // EN
               else if(!isNaN(parseInt(investigator)) && isNaN(parseInt(organization))){
                 if (!organization) {
                   App.trigger("ProjectForm:errors", ['You must select an organization and an address for each investigator']);
                 } else {
                   obj.research_unit_attributes = {
-                    investigator_id: investigator,
-                    address_attributes: {
+                    investigator_id: investigator
+                  };
+                  if (addressIsInt) {
+                    obj.research_unit_attributes.address_attributes = {
                       country_id: organization.organizationCountry,
                       city: organization.organizationCity,
                       latitude: organization.organizationLatitude,
@@ -226,13 +241,23 @@
                         name: organization.organizationName,
                         organization_type_id: organization.organizationType
                       }
-                    }
-                  };
+                    };
+                  } else {
+                    obj.research_unit_attributes.address_attributes = {
+                      country_id: address.organizationCountry,
+                      city: address.organizationCity,
+                      latitude: address.organizationLatitude,
+                      longitude: address.organizationLongitude,
+                      organization_attributes: {
+                        name: organization.organizationName,
+                        organization_type_id: organization.organizationType
+                      }
+                    };
+                  }
                 }
               } // NE
               else if(!!investigator && isNaN(parseInt(investigator)) && !isNaN(parseInt(organization))){
                 obj.research_unit_attributes = {
-                  address_id: address,
                   investigator_attributes: {
                     user_id: investigator.investigatorUser,
                     name: investigator.investigatorName,
@@ -240,6 +265,18 @@
                     website: investigator.investigatorWebsite
                   }
                 };
+                if (addressIsInt) {
+                  obj.research_unit_attributes.address_id = address;
+                } else {
+                  address = JSON.parse(address);
+                  obj.research_unit_attributes.address_attributes = {
+                    country_id: address.organizationCountry,
+                    city: address.organizationCity,
+                    latitude: address.organizationLatitude,
+                    longitude: address.organizationLongitude,
+                    organization_id: organization
+                  };
+                }
               } // NN
               else {
                 if (!organization) {
@@ -251,23 +288,34 @@
                       name: investigator.investigatorName,
                       email: investigator.investigatorEmail,
                       website: investigator.investigatorWebsite,
-                      addresses_attributes: [
-                        {
-                          country_id: organization.organizationCountry,
-                          city: organization.organizationCity,
-                          latitude: organization.organizationLatitude,
-                          longitude: organization.organizationLongitude,
-
-                          organization_attributes: {
-                            name: organization.organizationName,
-                            organization_type_id: organization.organizationType
-                          }
-                        }
-                      ]
                     }
                   };
+                  if (addressIsInt) {
+                    obj.research_unit_attributes.address_attributes = [{
+                      country_id: organization.organizationCountry,
+                      city: organization.organizationCity,
+                      latitude: organization.organizationLatitude,
+                      longitude: organization.organizationLongitude,
+                      organization_attributes: {
+                        name: organization.organizationName,
+                        organization_type_id: organization.organizationType
+                      }
+                    }];
+                  } else {
+                    obj.research_unit_attributes.address_attributes = [{
+                      country_id: address.organizationCountry,
+                      city: address.organizationCity,
+                      latitude: address.organizationLatitude,
+                      longitude: address.organizationLongitude,
+                      organization_attributes: {
+                        name: organization.organizationName,
+                        organization_type_id: organization.organizationType
+                      }
+                    }];
+                  }
                 }
               }
+
               this.request.project["memberships"].push(obj);
             }
           }, this);

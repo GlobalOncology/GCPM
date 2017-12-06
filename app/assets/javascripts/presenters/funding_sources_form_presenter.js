@@ -19,6 +19,24 @@
       var organizationLatitude = new App.Presenter.OrganizationLatitude();
       var organizationLongitude = new App.Presenter.OrganizationLongitude();
 
+      this.mapSearch = new App.View.MapSearch({
+        el: '#map-search',
+        options: {
+          nocreate: true
+        }
+      });
+
+      this.map = new App.View.Map({
+        el: '#map',
+        options: {
+          nocreate: true,
+          zoom: 3,
+          minZoom: 3,
+          center: [52,7],
+          basemap: 'secondary'
+        }
+      });
+
       this.children = [organizationName, organizationType, organizationCountry,
          organizationLatitude, organizationLongitude];
 
@@ -41,6 +59,19 @@
         App.trigger('FundingSourcesForm:submit', this.state.attributes);
         this.closeForm();
       }, this);
+
+      this.mapSearch.on('center', function(center) {
+        this.map.map.panTo(center);
+      }.bind(this));
+
+      this.mapSearch.on('bounds', function(bounds) {
+        this.map.map.fitBounds(bounds);
+      }.bind(this));
+
+      this.map.on('pan', function(e){
+        this.organizationForm.setLatLngError(false);
+        this.organizationForm.setLocation(e.target.getCenter());
+      }.bind(this));
     },
 
     /**
@@ -114,6 +145,16 @@
         // Render the child
         child.render();
       }.bind(this));
+
+      setTimeout(function() {
+        this.map.setElement('#map');
+        this.map.createMap();
+
+        this.mapSearch.setElement('#map-search');
+        this.mapSearch.setSearchBox();
+      }.bind(this), 100);
+
+      console.log('bang');
     }
 
   });

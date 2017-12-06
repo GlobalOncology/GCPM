@@ -1,5 +1,7 @@
 
 <% title @country.country_name %>
+<% content_for :description do %><%= strip_tags(@country.country_name).strip().truncate(120) %><% end %>
+<% content_for :canonical do %><%= country_url(@country.country_iso_3) %><% end %>
 
 <section class="l-app -full -secondary">
   <% if !browser.device.mobile? %>

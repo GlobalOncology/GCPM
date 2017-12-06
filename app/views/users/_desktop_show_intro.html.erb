@@ -24,7 +24,7 @@
       <div class="column small-8">
         <div class="c-title-btn">
           <% if not_blank?(user.name) %>
-            <h2><%= user.name %></h2>
+            <h1><%= user.name %></h1>
           <% end %>
           <% if owner %>
             <%= link_to (t 'edit'), edit_user_path(current_user.id), class: "c-btn -transparent" %>
@@ -43,8 +43,8 @@
               <% end %>
             </ul>
             <ul class="c-pipe-list">
-              <li><%= @following %> Following(s)</li>
-              <li><%= @followers %> Follower(s)</li>
+              <li><%= @followingCount %> Following(s)</li>
+              <li><%= @followersCount %> Follower(s)</li>
             </ul>
           </div>
           <div class="column small-12 medium-6">

@@ -1,0 +1,35 @@
+SELECT DISTINCT ON (investigators.id, investigators.name)
+    investigators.id AS resource_id,
+    investigators.name AS resource_name,
+    investigators.slug AS resource_slug,
+    countries.country_name AS location_name,
+    addresses.country_name AS location_country_name,
+    addresses.city AS location_city,
+    addresses.line_1 AS location_line_1,
+    addresses.line_2 AS location_line_2,
+    addresses.line_3 AS location_line_3,
+    addresses.postcode AS location_postcode,
+    addresses.state AS location_state,
+    organizations.id as organization,
+    organizations.name as organization_name,
+    organizations.slug as organization_slug,
+    countries.country_centroid as centroid,
+    countries.country_iso_3 as iso,
+    'country' as type
+FROM investigators
+    INNER JOIN research_units ON research_units.investigator_id = investigators.id
+    INNER JOIN addresses ON addresses.id = research_units.address_id
+    INNER JOIN countries ON countries.id = addresses.country_id
+    INNER JOIN organizations ON organizations.id = addresses.organization_id
+WHERE investigators.id IN (
+    SELECT investigator_id FROM research_units WHERE id IN (
+        SELECT research_unit_id FROM memberships WHERE project_id IN (
+            SELECT project_id FROM memberships WHERE research_unit_id IN (
+                SELECT id FROM research_units WHERE address_id IN (
+                    SELECT id FROM addresses WHERE organization_id in <%= "#{'(' + @params[:organizations].join(',') + ')'}" %>
+                )
+            )
+        )
+    )
+)
+ORDER BY investigators.name ASC

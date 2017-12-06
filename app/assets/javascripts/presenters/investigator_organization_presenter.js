@@ -35,7 +35,7 @@
         name: "address-1",
         label: null,
         required: true,
-        addNew: false,
+        addNew: true,
         multiple: false
       });
       var lead = new App.Presenter.OrganizationLead({
@@ -179,7 +179,7 @@
         name: "address-"+this.investigatorOrganization.elementId,
         label: null,
         required: true,
-        addNew: false,
+        addNew: true,
         multiple: false
       });
       var lead = new App.Presenter.OrganizationLead({
