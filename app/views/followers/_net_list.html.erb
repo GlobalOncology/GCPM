@@ -40,7 +40,7 @@
 
           </div>
           <div>
-            <h2><%= link_to e.name, investigator_path(e.slug_or_id) %></h2>
+            <h2><%= link_to e.name, user_path(e.slug_or_id) %></h2>
 
             <% if is_owner?(@user, current_user) && !browser.device.mobile? %>
               <div>
