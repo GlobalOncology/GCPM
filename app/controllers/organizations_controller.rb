@@ -8,7 +8,7 @@ class OrganizationsController < ApplicationController
 
   def show
     @page = params.key?(:page) && params[:page] ? params[:page].to_i : 1
-    @filters = %w(projects people posts network funded_projects)
+    @filters = %w(projects people posts network funded_projects events)
     @current_type = params.key?(:data) ? params[:data] : 'projects'
 
     gon.server_params = { 'organizations[]': @organization.id }
@@ -32,6 +32,7 @@ class OrganizationsController < ApplicationController
     @network.sort_by!{|obj| obj.name}
 
     @network = @network.uniq()
+    @events = @organization.events
 
     if params.key?(:data) && params[:data] == 'events'
       @items = @events.limit(limit)
@@ -53,6 +54,10 @@ class OrganizationsController < ApplicationController
       @items = @funded_projects.limit(limit)
       @more = (@funded_projects.size > @items.size)
       @items_total = @funded_projects.size
+    elsif params.key?(:data) && params[:data] == 'events'
+      @items = @events.limit(limit)
+      @more = (@events.size > @items.size)
+      @items_total = @events.size
     else
       @items = @projects.limit(limit)
       @more = (@projects.size > @items.size)

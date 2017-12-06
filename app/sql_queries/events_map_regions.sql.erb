@@ -22,4 +22,7 @@ where 1=1
 <% if @params[:user] %>
   and events.user_id = <%= quote @params[:user] %>
 <% end %>
+<% if @params[:organizations] %>
+  and events.organization_id in <%= "#{'(' + @params[:organizations].join(',') + ')'}" %>
+<% end %>
 group by location_name, centroid, iso

@@ -29,6 +29,7 @@ class Organization < ApplicationRecord
   has_many :projects,       through: :memberships
   has_many :pins,           as: :pinable
   has_many :posts,          through: :pins
+  has_many :events
 
   has_many :funders
   has_many :funded_projects, through: :funders, source: :project
