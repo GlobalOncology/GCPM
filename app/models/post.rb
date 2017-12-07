@@ -23,9 +23,19 @@ class Post < ApplicationRecord
   has_many :cancer_types,  through: :pins, source: :pinable, source_type: 'CancerType'
   has_many :specialities,  through: :pins, source: :pinable, source_type: 'Speciality'
 
+  scope :by_user,       -> user       { where('posts.user_id = ?', user ) }
+
   validates_presence_of :title, :body
 
   default_scope { order('created_at DESC') }
+
+  class << self
+    def fetch_all(options={})
+      posts = Post.all
+      posts = posts.by_user(options[:user])                    if options[:user]
+      posts
+    end
+  end
 
   def build_pins(options)
     options.each do |pinable_type, pinable_ids|
