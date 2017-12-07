@@ -29,7 +29,7 @@ class InvestigatorsController < ApplicationController
     limit = 12 + (@page * 9)
 
     @projects = Project.fetch_all(investigators: @investigator.id).order('created_at DESC')
-    @posts = Post.where(user_id: @investigator.id)
+    @posts = Post.fetch_all(user: @investigator_user && @investigator_user.id || -1)
     @events = Event.fetch_all(user: @investigator_user && @investigator_user.id || -1)
 
     if params.key?(:data) && params[:data] == 'posts'
