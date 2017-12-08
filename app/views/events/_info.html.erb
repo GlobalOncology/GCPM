@@ -79,6 +79,17 @@
           </ul>
         </div>
       <% end %>
+
+      <% if @event.organization.present? %>
+        <div class="sidebar-item">
+          <h3><%= t 'organization' %></h3>
+          <ul class="c-list">
+            <li class="list-item -mg-less">
+                <%= link_to "#{@event.organization.name}", organization_path(@event.organization.slug_or_id) %>
+            </li>
+          </ul>
+        </div>
+      <% end %>
     </aside>
   </div>
 </div>
