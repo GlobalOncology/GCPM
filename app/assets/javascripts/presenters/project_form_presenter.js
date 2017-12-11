@@ -159,6 +159,7 @@
           var funder = {
             name: element["organizationName"],
             organization_type_id: element["organizationType"],
+            acronym: element["organizationAcronym"],
             addresses_attributes: [{
               country_id: element["organizationCountry"],
               latitude: element["organizationLatitude"],
@@ -239,7 +240,8 @@
                       longitude: organization.organizationLongitude,
                       organization_attributes: {
                         name: organization.organizationName,
-                        organization_type_id: organization.organizationType
+                        organization_type_id: organization.organizationType,
+                        acronym: organization.organizationAcronym
                       }
                     };
                   } else {
@@ -250,7 +252,8 @@
                       longitude: address.organizationLongitude,
                       organization_attributes: {
                         name: organization.organizationName,
-                        organization_type_id: organization.organizationType
+                        organization_type_id: organization.organizationType,
+                        acronym: organization.organizationAcronym
                       }
                     };
                   }

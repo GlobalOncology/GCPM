@@ -14,6 +14,7 @@
       this.state = new StateModel(params);
 
       var organizationName = new App.Presenter.OrganizationName();
+      var organizationAcronym = new App.Presenter.OrganizationAcronym();
       var organizationCountry = new App.Presenter.OrganizationCountry();
       var organizationType = new App.Presenter.OrganizationType();
       var organizationLatitude = new App.Presenter.OrganizationLatitude();
@@ -37,7 +38,7 @@
         }
       });
 
-      this.children = [organizationName, organizationType, organizationCountry,
+      this.children = [organizationName, organizationAcronym, organizationType, organizationCountry,
          organizationLatitude, organizationLongitude];
 
       this.modal = new App.View.Modal();
