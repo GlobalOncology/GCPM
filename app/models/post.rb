@@ -38,6 +38,34 @@ class Post < ApplicationRecord
       :tsearch => {:prefix => true}
     }
 
+  pg_search_scope :search_by_organization, :associated_against => {
+    :organizations => [:name]
+  }
+
+  pg_search_scope :search_by_project, :associated_against => {
+    :projects => [:title]
+  }
+
+  pg_search_scope :search_by_cancer_type, :associated_against => {
+    :cancer_types => [:name]
+  }
+
+  pg_search_scope :search_by_speciality, :associated_against => {
+    :specialities => [:name]
+  }
+
+  pg_search_scope :search_by_author, :associated_against => {
+    :user => [:name]
+  }
+
+  pg_search_scope :search_by_category, :associated_against => {
+    :categories => [:name]
+  }
+
+  pg_search_scope :search_by_country, :associated_against => {
+    :countries => [:country_name]
+  }
+
   default_scope { order('created_at DESC') }
 
   def build_pins(options)

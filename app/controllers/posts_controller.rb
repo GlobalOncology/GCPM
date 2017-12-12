@@ -16,7 +16,44 @@ class PostsController < InheritedResources::Base
 
     # are we searching
     if params[:q].present?
-      @posts = @posts.search_by_content(params[:q].strip);
+      q = params[:q].strip;
+      @postsByContent = @posts.search_by_content(q).pluck(:id)
+      @postsByOrg = @posts.search_by_organization(q).pluck(:id)
+      @postsByProject = @posts.search_by_project(q).pluck(:id)
+      @postsByCancer = @posts.search_by_cancer_type(q).pluck(:id)
+      @postsBySpec = @posts.search_by_speciality(q).pluck(:id)
+      @postsByAuthor = @posts.search_by_author(q).pluck(:id)
+      @postsByCategory = @posts.search_by_category(q).pluck(:id)
+      @postsByCountry = @posts.search_by_country(q).pluck(:id)
+      @postIds = [];
+      if !@postsByContent.nil?
+        @postIds.concat(@postsByContent)
+      end
+      if !@postsByProject.nil?
+        @postIds.concat(@postsByProject)
+      end
+      if !@postsByCancer.nil?
+        @postIds.concat(@postsByCancer)
+      end
+      if !@postsByOrg.nil?
+        @postIds.concat(@postsByOrg)
+      end
+      if !@postsBySpec.nil?
+        @postIds.concat(@postsBySpec)
+      end
+      if !@postsByAuthor.nil?
+        @postIds.concat(@postsByAuthor)
+      end
+      if !@postsByCategory.nil?
+        @postIds.concat(@postsByCategory)
+      end
+      if !@postsByCountry.nil?
+        @postIds.concat(@postsByCountry)
+      end
+      if @postIds.size > 0
+        @postIds = @postIds.uniq()
+      end
+      @posts = Post.where(:id => @postIds).order(updated_at: :desc);
     end
 
     # figure out which posts to display, if there's more to display, and how many posts exist

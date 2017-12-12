@@ -1,11 +1,15 @@
 <% if items && items.size() > 0 %>
   <% items.each do |p| %>
       <div class="c-card">
-        <h3>
-          <span class="post-title"><%= link_to p.title, p %></span>
-          <span class="post-date"><%= p.updated_at.strftime("%B %e, %Y") %></span>
-        </h3>
-        <p><%= p.body && truncate_html(p.body, :length => 300, :omission => "...").html_safe %></p>
+        <h2 class="post-title">
+          <%= link_to p.title, p %>
+        </h2>
+        <div class="post-date-and-author">
+          <div class="post-date"><%= p.updated_at.strftime("%B %e, %Y") %></div>
+          <div class="post-author">By <%= p.user.name %></div>
+        </div>
+
+        <p><%= p.body && truncate(strip_tags(p.body), :length => 300, :omission => "...") %></p>
       </div>
   <% end %>
 <% else %>
