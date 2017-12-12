@@ -19,8 +19,8 @@
       this.Input = new App.View.Input({
         el: '#investigatorname',
         options: {
-          label: 'Investigator Name',
-          placeholder: 'Investigator Name',
+          label: 'Collaborator Name',
+          placeholder: 'Collaborator Name',
           name: 'investigatorName',
           type: 'text',
           required: true,
