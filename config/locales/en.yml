@@ -99,6 +99,20 @@ en:
   your_projects: "Your Projects"
   specialities: "Specialities"
   funded_projects: "Funded Projects"
+  view_all_events: "View All Events"
+  view_all_organizations: "View All Organizations"
+  view_all_collaborators: "View All Collaborators"
+  view_all_projects: "View All Projects"
+  view_all_blog_posts: "View All Blog Posts"
+  view_all_users: "View All Users"
+  featured: "Featured"
+  blog_post: "Blog Post"
+  organization: "Organization"
+  collaborator: "Collaborator"
+  project: "Project"
+  event: "Event"
+  user: "User"
+
 
   mailboxer:
     message_mailer:
