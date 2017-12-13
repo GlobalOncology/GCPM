@@ -8,32 +8,53 @@
   li{
     position: relative;
     .megamenu{
-      white-space: normal;
       position: absolute;
       left: -999em;
       display: none;
       background: #FFF;
-      width: 820px;
-      padding: 15px 15px 5px;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      white-space: normal;
+      border: 1px solid #e5e5e5;
+      & > div{
+        width: 420px;
+        max-height: 500px;
+        overflow-y: auto;
+        padding: 15px 15px 5px;
+      }
+      &:before{
+        position: absolute;
+        display: block;
+        content: '';
+        top: -10px;
+        left: 50%;
+        border-bottom: 10px solid #FFF;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        transform: translateX(-50%);
+        z-index: 10;
+      }
+      &:after{
+        position: absolute;
+        display: block;
+        content: '';
+        top: -11px;
+        left: 50%;
+        border-bottom: 10px solid #e5e5e5;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        transform: translateX(-50%);
+        z-index: 9;
+      }
       ul{
         list-style: none;
         margin: 0;
         padding: 0;
-        text-align: center;
+        display: inline-block;
+        width: 49%;
+        vertical-align: top;
         li{
-          text-align: center;
-          display: inline-block;
-          width: 33%;
           margin: 0;
           padding: 0 0 10px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          &:nth-child(3n-1){ // 3-1, 6-1, 9-1, etc
-            padding-left: 10px;
-            padding-right: 10px;
-          }
           a{
             display: inline;
             padding: 0;
@@ -44,18 +65,12 @@
           }
         }
       }
-      &.two-cols{
-        width: 620px;
-        ul li{
-          width: 49.5%;
-        }
-      }
     }
     &:hover .megamenu{
       display: block;
       left: auto;
       top: 100%;
-      right: 0;
+      transform: translateX(-37%);
     }
   }
 }
