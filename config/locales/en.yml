@@ -98,6 +98,8 @@ en:
   your_profile: "Your Profile"
   your_projects: "Your Projects"
   specialities: "Specialities"
+  featured: "Featured"
+  blog_post: "Blog Post"
 
   mailboxer:
     message_mailer:

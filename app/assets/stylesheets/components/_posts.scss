@@ -1,4 +1,22 @@
 .posts-index{
+  .post-featured{
+    background-color: $secondary-color;
+    text-transform: uppercase;
+    padding: 15px 20px 15px 40px;
+    color: #FFF;
+    font-weight: bold;
+    margin: -40px -40px 40px -40px;
+    span:nth-child(1){
+      font-size: 0.8rem;
+      color: #cbbedc;
+      position: relative;
+      top: -0.5rem;
+      margin-right: 5px;
+    }
+    span:nth-child(2){
+      font-size: 1.5rem;
+    }
+  }
   .post-title{
     position: relative;
     padding: 0 0 20px 0;
@@ -33,6 +51,7 @@
   .c-card{
     box-shadow: none;
     border: 1px solid #e5e5e5;
+    padding: 40px;
     & + .c-card{
       margin-top: 40px;
     }

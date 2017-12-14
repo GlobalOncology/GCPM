@@ -56,8 +56,23 @@ class PostsController < InheritedResources::Base
       @posts = Post.where(:id => @postIds).order(updated_at: :desc);
     end
 
+    # figure out which posts are featured so we can put them first
+    @featured = []
+    @woFeatured = []
+    for post in @posts.all do
+      if post.featured?
+        @featured.push(post)
+      else
+        @woFeatured.push(post)
+      end
+    end
+
+    #combine featured/regular posts putting featured ones at the top of the list
+    @posts = @featured.concat(@woFeatured)
+
     # figure out which posts to display, if there's more to display, and how many posts exist
-    @items = @posts.first(limit)
+    #@items = @posts.first(limit)
+    @items = @posts.slice(0, limit);
     @more = (@posts.size > @items.size)
     @items_total = @posts.size
   end
