@@ -5,7 +5,7 @@
   <%= link_to (t 'countries'), countries_path %>
 </li>
 <li class="<%= active_page?(cancers_path) ? '-active' : '' %>">
-  <%= link_to (t 'cancer_types'), '#', :class=>'with-megamenu' %>
+  <%= link_to (t 'cancer_types'), cancers_path, :class=>'with-megamenu' %>
   <div class="megamenu"><div>
     <ul>
       <% i = 0 %>
