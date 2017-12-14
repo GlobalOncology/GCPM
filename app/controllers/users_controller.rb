@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       end
     end
 
-    @projects = @projects.sort{ |a, b| b.created_at <=> a.created_at }
+    @projects = @projects.uniq.sort{ |a, b| b.created_at <=> a.created_at }
 
     @people = @user.investigator
     @posts = @user.posts
