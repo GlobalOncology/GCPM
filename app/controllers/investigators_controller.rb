@@ -29,6 +29,18 @@ class InvestigatorsController < ApplicationController
     limit = 12 + (@page * 9)
 
     @projects = Project.fetch_all(investigators: @investigator.id).order('created_at DESC')
+
+    @projects = @projects.to_a
+
+    if @investigator.user.present?
+      @userProjects = @investigator.user.projects
+      if @userProjects.size > 0
+        @projects.concat(@userProjects.to_a)
+      end
+    end
+
+    @projects = @projects.uniq.sort{ |a, b| b.created_at <=> a.created_at }
+
     @posts = Post.where(user_id: @investigator.id)
     @events = Event.fetch_all(user: @investigator_user && @investigator_user.id || -1)
 
@@ -48,7 +60,7 @@ class InvestigatorsController < ApplicationController
       @more = (@events.size > @items.size)
       @items_total = @events.size
     else
-      @items = @projects.limit(limit)
+      @items = @projects.slice(0, limit)
       @more = (@projects.size > @items.size)
       @items_total = @projects.size
     end
