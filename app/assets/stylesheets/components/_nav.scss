@@ -5,21 +5,45 @@
   &.-social {
     flex-wrap: nowrap;
   }
+}
+
+.c-nav{
   li{
-    position: relative;
     .megamenu{
       position: absolute;
       left: -999em;
-      display: none;
-      background: #FFF;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-      white-space: normal;
       border: 1px solid #e5e5e5;
       & > div{
         width: 420px;
         max-height: 500px;
-        overflow-y: auto;
         padding: 15px 15px 5px;
+      }
+      ul{
+        display: inline-block;
+        width: 49%;
+      }
+    }
+    &:hover .megamenu{
+      transform: translateX(-37%);
+      display: block;
+      left: auto;
+      top: 100%;
+    }
+  }
+}
+
+.c-nav,
+.c-menu-mobile{
+  li{
+    position: relative;
+    .megamenu{
+      display: none;
+      background: #FFF;
+      white-space: normal;
+      z-index: 10;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      & > div{
+        overflow-y: auto;
       }
       &:before{
         position: absolute;
@@ -31,7 +55,7 @@
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
         transform: translateX(-50%);
-        z-index: 10;
+        z-index: 12;
       }
       &:after{
         position: absolute;
@@ -43,14 +67,12 @@
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
         transform: translateX(-50%);
-        z-index: 9;
+        z-index: 11;
       }
       ul{
         list-style: none;
         margin: 0;
         padding: 0;
-        display: inline-block;
-        width: 49%;
         vertical-align: top;
         li{
           margin: 0;
@@ -66,11 +88,30 @@
         }
       }
     }
-    &:hover .megamenu{
+  }
+}
+
+.c-menu-mobile{
+  li{
+    .megamenu{
+      position: relative;
+      border-top: 1px solid #e5e5e5;
+      border-bottom: 1px solid #e5e5e5;
+      margin-top: 8px;
+      margin-bottom: 10px;
+      & > div{
+        max-height: 50vh;
+        padding: 15px 30px 15px 60px;
+      }
+      &:before,
+      &:after{
+        left: 70px;
+      }
+    }
+    .megamenu.active{
       display: block;
       left: auto;
       top: 100%;
-      transform: translateX(-37%);
     }
   }
 }
