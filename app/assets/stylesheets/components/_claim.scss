@@ -9,6 +9,10 @@
     @media #{$mq-small} {
       padding: $base-space * 1.4;
     }
+    &:first-child{
+      background-color: #FFF;
+      color: $primary-color;
+    }
     & + .column{
       border-left: 3px solid #2481C8;
     }
