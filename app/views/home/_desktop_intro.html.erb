@@ -1,45 +1,3 @@
-<section>
-  <div class="wrapper">
-    <div class="c-claim -primary -smaller">
-      <h1 class="js-action-network">Join the network</h1>
-      <ul class="claim-list">
-        <li>
-          <%= link_to (user_signed_in?) ? new_user_project_path(current_user.id) : user_session_path, class: 'claim-link' do %>
-            <div class="icon">
-              <svg style="width: 30px;" class="c-icon -big -inverse-stroke"><use xlink:href="#icon-upload"></use></svg>
-            </div>
-            <p>Upload your projects</p>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to (user_signed_in?) ? new_post_path : user_session_path, class: 'claim-link' do %>
-            <div class="icon">
-              <svg class="c-icon -big -inverse-stroke"><use xlink:href="#icon-write"></use></svg>
-            </div>
-            <p>Write a post</p>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to (user_signed_in?) ? new_user_event_path(current_user.id) : user_session_path, class: 'claim-link' do %>
-            <div class="icon">
-              <svg class="c-icon -big -inverse-stroke"><use xlink:href="#icon-submit"></use></svg>
-            </div>
-            <p>Submit your events</p>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to (user_signed_in?) ? user_path(:data => 'network', :id => current_user.id) : user_session_path, class: 'claim-link' do %>
-            <div class="icon">
-              <svg class="c-icon -big -inverse-stroke"><use xlink:href="#icon-contact"></use></svg>
-            </div>
-            <p>Contact other users</p>
-          <% end %>
-        </li>
-      </ul>
-    </div>
-  </div>
-</section>
-
 <section class="l-app -main -home -full">
   <div class="l-app-map">
     <%= link_to map_path do %>
@@ -48,14 +6,29 @@
   </div>
   <div class="l-app-claim">
     <div class="c-claim">
-      <h1>Discover projects <br> and much more</h1>
-      <%= link_to 'Explore the map', map_path, class: 'link' %>
-    </div>
-  </div>
-
-  <div class="l-app-bottombar">
-    <div id="counters">
-      <%= render 'home/counters' %>
+      <div class="row">
+        <div class="column small-7">
+          <h1>The Go Map</h1>
+          <p>
+            The GO Map is a free tool that helps users initiate partnerships,
+            promote their work and develop collaborations in cancer control.
+          </p>
+          <div class="c-claim-buttons">
+            <%= link_to 'Login', user_session_path, class: 'c-btn -primary -inverse'%>
+            <%= link_to 'Sign Up For Free', '/users/sign_up', class: 'c-btn -primary -inverse'%>
+          </div>
+        </div>
+        <div class="column small-5">
+          <h2>Use To:</h2>
+          <ul>
+            <li>Promote research &amp; Projects</li>
+            <li>Find new collaborators</li>
+            <li>Allow funders to find projects</li>
+            <li>Highlight events</li>
+            <li>Post the latest news</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </section>

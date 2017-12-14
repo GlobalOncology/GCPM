@@ -15,7 +15,8 @@
       'post[cancer_types][]': undefined,
       'post[organizations][]': undefined,
       'post[projects][]': undefined,
-      'post[specialities][]': undefined
+      'post[specialities][]': undefined,
+      'post[all_categories][]': undefined
     },
 
     initialize: function(params) {
@@ -87,7 +88,11 @@
         name: 'post[specialities][]'
       });
 
-      this.children = [countries, organizations, cancerTypes, projects, specialities];
+      var categories = new App.Presenter.Categories({
+        name: 'post[all_categories][]'
+      });
+
+      this.children = [categories, countries, organizations, cancerTypes, projects, specialities];
 
       this.countries = new App.Collection.Countries();
       this.countries.fetch();
