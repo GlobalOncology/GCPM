@@ -79,6 +79,9 @@ end
 gem 'pg', '~> 0.18'
 gem 'activerecord-import'
 
+# full text searching
+gem 'pg_search'
+
 group :development, :test do
   gem 'hirb'
   gem 'awesome_print'

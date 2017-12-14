@@ -12,6 +12,8 @@
 
 class Post < ApplicationRecord
   include ActAsFeatured
+  include PgSearch
+
   belongs_to :user
 
   after_create :notify_users_for_update
@@ -22,8 +24,47 @@ class Post < ApplicationRecord
   has_many :organizations, through: :pins, source: :pinable, source_type: 'Organization'
   has_many :cancer_types,  through: :pins, source: :pinable, source_type: 'CancerType'
   has_many :specialities,  through: :pins, source: :pinable, source_type: 'Speciality'
+  has_many :category_posts
+  has_many :categories,    through: :category_posts
 
   validates_presence_of :title, :body
+
+  pg_search_scope :search_by_content,
+    :against => {
+      :title => 'A',
+      :body => 'B'
+    },
+    :using => {
+      :tsearch => {:prefix => true}
+    }
+
+  pg_search_scope :search_by_organization, :associated_against => {
+    :organizations => [:name]
+  }
+
+  pg_search_scope :search_by_project, :associated_against => {
+    :projects => [:title]
+  }
+
+  pg_search_scope :search_by_cancer_type, :associated_against => {
+    :cancer_types => [:name]
+  }
+
+  pg_search_scope :search_by_speciality, :associated_against => {
+    :specialities => [:name]
+  }
+
+  pg_search_scope :search_by_author, :associated_against => {
+    :user => [:name]
+  }
+
+  pg_search_scope :search_by_category, :associated_against => {
+    :categories => [:name]
+  }
+
+  pg_search_scope :search_by_country, :associated_against => {
+    :countries => [:country_name]
+  }
 
   default_scope { order('created_at DESC') }
 
@@ -33,6 +74,16 @@ class Post < ApplicationRecord
         Pin.where(pinable_type: pinable_type.classify, pinable_id: pinable_id, post_id: self.id).first_or_create
       end
     end
+  end
+
+  def all_categories=(categories)
+    self.categories = categories.map do |name|
+      Category.where(name: name.strip).first_or_create!
+    end
+  end
+
+  def all_categories
+    self.categories.map(&:name).join(', ')
   end
 
   private

@@ -93,9 +93,11 @@ Rails.application.routes.draw do
 
       resources :investigators, only: [:index, :show, :update, :create]
       resources :organizations, only: [:index, :show]
+      resources :categories, only: [:index]
 
       get '/investigators/:id/graph', to: 'investigators#graph'
       get 'funding-sources',          to: 'organizations#index'
+      get '/categories',              to: 'categories#index'
       get 'countries',                to: 'countries#index'
       get 'check_research_unit',      to: 'memberships#check_research_unit'
       get 'lists/countries',          to: 'lists#countries'
