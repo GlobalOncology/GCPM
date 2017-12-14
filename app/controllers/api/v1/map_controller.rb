@@ -10,7 +10,7 @@ module Api
                 else
                   'regions'
                 end
-        ActiveRecord::Base.logger = Logger.new(STDOUT)
+
         query = SqlQuery.new("#{type}_map_#{group}", params: map_params)
         json_list = query.execute
         render json: json_list
