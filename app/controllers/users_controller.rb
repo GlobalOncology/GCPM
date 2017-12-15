@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
   def show
     @page = params.key?(:page) && params[:page] ? params[:page].to_i : 1
-    @filters = %w(network projects posts events)
+    @filters = %w(data network projects posts events)
 
     if current_user == @user
       @filters.push('messages')
@@ -14,7 +14,11 @@ class UsersController < ApplicationController
 
     @current_type = params.key?(:data) ? params[:data] : 'projects'
 
-    gon.server_params = { 'user': @investigator.present? ? @investigator.id : '0' }
+    gon.server_params = {
+      'user': @investigator.present? ? @investigator.id : '0',
+      'investigators[]': @investigator.present? ? @investigator.id : '0',
+      'name': @investigator.present? ? @investigator.name : ''
+    }
     gon.userId = current_user.id
     gon.unreadCount = current_user.unread_inbox_count
     gon.isMobile = browser.device.mobile?

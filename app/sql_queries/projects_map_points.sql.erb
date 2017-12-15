@@ -47,9 +47,6 @@ from projects
     <% if @params[:user] %>
       inner join project_users on projects.id = project_users.project_id
     <% end %>
-    <% if @params[:investigators] %>
-      inner join project_users on project_users.user_id = investigators.user_id
-    <% end %>
     where projects.status = 1
     <% if @params[:id].present? %>
       and projects.id = <%= @params[:id] %>

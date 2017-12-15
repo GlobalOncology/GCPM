@@ -13,6 +13,7 @@
       new App.Presenter.MessagesActions(params);
       new App.Presenter.UserMessages(params);
       new App.Presenter.UsersSearch(params);
+      new App.Presenter.InvestigatorData(params);
 
       if (gon.isMobile) {
         new App.Presenter.UserNetworkList(params);
