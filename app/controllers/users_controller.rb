@@ -12,12 +12,14 @@ class UsersController < ApplicationController
       @filters.push('messages')
     end
 
-    @current_type = params.key?(:data) ? params[:data] : 'projects'
+    @current_type = params.key?(:data) ? params[:data] : 'network'
 
     if !@investigator.present?
       @filters.delete('data');
       @current_type == 'data' && @current_type = 'projects'
     end
+
+    params[:data] = @current_type
 
     gon.server_params = {
       'user': @investigator.present? ? @investigator.id : '0',
