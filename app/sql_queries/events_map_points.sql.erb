@@ -28,7 +28,13 @@ where 1=1
   and (events.end_date < date(<%= quote @params[:end_date] %>))
 <% end %>
 <% if @params[:user] %>
-  and events.user_id = <%= quote @params[:user] %>
+  and events.user_id IN (
+    SELECT user_id FROM investigators WHERE investigators.id = <%= quote @params[:user] %>
+  )
+<% elsif @params[:investigators] %>
+  and events.user_id IN (
+    SELECT user_id FROM investigators WHERE investigators.id in <%= "#{'(' + @params[:investigators].join(',') + ')'}" %>
+  )
 <% end %>
 <% if @params[:organizations] %>
   and events.organization_id in <%= "#{'(' + @params[:organizations].join(',') + ')'}" %>

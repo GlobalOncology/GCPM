@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
   def show
     @page = params.key?(:page) && params[:page] ? params[:page].to_i : 1
-    @filters = %w(network projects posts events)
+    @filters = %w(data network projects posts events)
 
     if current_user == @user
       @filters.push('messages')
@@ -14,7 +14,18 @@ class UsersController < ApplicationController
 
     @current_type = params.key?(:data) ? params[:data] : 'projects'
 
-    gon.server_params = { 'user': @investigator.present? ? @investigator.id : '0' }
+    if !@investigator.present?
+      @filters.delete('data');
+      @current_type == 'data' && @current_type = 'network'
+    end
+
+    params[:data] = @current_type
+
+    gon.server_params = {
+      'user': @investigator.present? ? @investigator.id : '0',
+      'investigators[]': @investigator.present? ? @investigator.id : '0',
+      'name': @investigator.present? ? @investigator.name : ''
+    }
     gon.userId = current_user.id
     gon.unreadCount = current_user.unread_inbox_count
     gon.isMobile = browser.device.mobile?
@@ -30,7 +41,7 @@ class UsersController < ApplicationController
       end
     end
 
-    @projects = @projects.sort{ |a, b| b.created_at <=> a.created_at }
+    @projects = @projects.uniq.sort{ |a, b| b.created_at <=> a.created_at }
 
     @people = @user.investigator
     @posts = @user.posts
