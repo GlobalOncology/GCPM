@@ -14,6 +14,11 @@ class UsersController < ApplicationController
 
     @current_type = params.key?(:data) ? params[:data] : 'projects'
 
+    if !@investigator.present?
+      @filters.delete('data');
+      @current_type == 'data' && @current_type = 'projects'
+    end
+
     gon.server_params = {
       'user': @investigator.present? ? @investigator.id : '0',
       'investigators[]': @investigator.present? ? @investigator.id : '0',
