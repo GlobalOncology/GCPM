@@ -12,7 +12,7 @@ class InvestigatorsController < ApplicationController
     @investigator_user = @investigator.user
     @page = params.key?(:page) && params[:page] ? params[:page].to_i : 1
     @filters = @investigator_user.present? ? %w(data network projects posts events) : %w(data projects posts)
-    @current_type = params.key?(:data) ? params[:data] : 'data'
+    @current_type = params.key?(:data) ? params[:data] : 'projects'
 
     gon.server_params = { 'investigators[]': @investigator.id, name: @investigator.name }
     gon.isMobile = browser.device.mobile?
