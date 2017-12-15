@@ -32,7 +32,7 @@
                     <% end %>
                   </p>
                   <div class="view-all-container">
-                    <%= link_to(t('view_all_projects'), '/map?data=projects', :class => 'c-btn -primary -inverse') %>
+                    <%= link_to(t('view_all_projects'), map_path(:data => "projects"), :class => 'c-btn -primary -inverse') %>
                   </div>
                 </div>
               </div>
@@ -48,7 +48,7 @@
                 <div class="content">
                   <h2><%= link_to featured.title, event_path(featured.slug_or_id) %></h2>
                   <div class="view-all-container">
-                    <%= link_to(t('view_all_events'), events_path(), :class => 'c-btn -alternative -inverse') %>
+                    <%= link_to(t('view_all_events'), map_path(:data => "events", :sortby => "upcoming", :global => "all"), :class => 'c-btn -alternative -inverse') %>
                   </div>
                 </div>
               </div>
@@ -138,7 +138,7 @@
                     <% end %>
                   </div>
                   <div class="view-all-container">
-                    <%= link_to(t('view_all_collaborators'), '/map?data=people', :class => 'c-btn -primary -inverse') %>
+                    <%= link_to(t('view_all_collaborators'), map_path(:data => "people"), :class => 'c-btn -primary -inverse') %>
                   </div>
                 </div>
               </div>
