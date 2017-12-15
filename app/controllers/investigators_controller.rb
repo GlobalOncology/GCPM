@@ -12,7 +12,8 @@ class InvestigatorsController < ApplicationController
     @investigator_user = @investigator.user
     @page = params.key?(:page) && params[:page] ? params[:page].to_i : 1
     @filters = @investigator_user.present? ? %w(data network projects posts events) : %w(data projects posts)
-    @current_type = params.key?(:data) ? params[:data] : 'network'
+    @default_type = @investigator_user.present? ? 'network' : 'projects'
+    @current_type = params.key?(:data) ? params[:data] : @default_type
 
     gon.server_params = { 'investigators[]': @investigator.id, name: @investigator.name }
     gon.isMobile = browser.device.mobile?
@@ -43,7 +44,7 @@ class InvestigatorsController < ApplicationController
 
     @projects = @projects.uniq.sort{ |a, b| b.created_at <=> a.created_at }
 
-    @posts = Post.where(user_id: @investigator_user.id)
+    @posts = Post.where(user_id: @investigator_user && @investigator_user.id || -1)
     @events = Event.fetch_all(user: @investigator_user && @investigator_user.id || -1)
 
     if params.key?(:data) && params[:data] == 'posts'
@@ -51,12 +52,21 @@ class InvestigatorsController < ApplicationController
       @more = (@posts.size > @items.size)
       @items_total = @posts.size
     elsif params.key?(:data) && params[:data] == 'network'
-      @followProjects = @investigator_user.following_by_type('Project')
-      @followEvents = @investigator_user.following_by_type('Event')
-      @followPeople = @investigator_user.following_by_type('Investigator')
-      @followUser = @investigator_user.following_by_type('User')
-      @followCancerTypes = @investigator_user.following_by_type('CancerType')
-      @followCountries = @investigator_user.following_by_type('Country')
+      if @investigator_user
+        @followProjects = @investigator_user.following_by_type('Project')
+        @followEvents = @investigator_user.following_by_type('Event')
+        @followPeople = @investigator_user.following_by_type('Investigator')
+        @followUser = @investigator_user.following_by_type('User')
+        @followCancerTypes = @investigator_user.following_by_type('CancerType')
+        @followCountries = @investigator_user.following_by_type('Country')
+      else
+        @followProjects = []
+        @followEvents = []
+        @followPeople = []
+        @followUser = []
+        @followCancerTypes = []
+        @followCountries = []
+      end
     elsif params.key?(:data) && params[:data] == 'events'
       @items = @events.limit(limit)
       @more = (@events.size > @items.size)
