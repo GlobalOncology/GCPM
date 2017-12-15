@@ -12,11 +12,11 @@ class UsersController < ApplicationController
       @filters.push('messages')
     end
 
-    @current_type = params.key?(:data) ? params[:data] : 'network'
+    @current_type = params.key?(:data) ? params[:data] : 'data'
 
     if !@investigator.present?
       @filters.delete('data');
-      @current_type == 'data' && @current_type = 'projects'
+      @current_type == 'data' && @current_type = 'network'
     end
 
     params[:data] = @current_type
