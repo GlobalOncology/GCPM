@@ -11,8 +11,8 @@ class InvestigatorsController < ApplicationController
     authorize! :show, @investigator
     @investigator_user = @investigator.user
     @page = params.key?(:page) && params[:page] ? params[:page].to_i : 1
-    @filters = @investigator_user.present? ? %w(data projects posts events network) : %w(data projects posts)
-    @current_type = params.key?(:data) ? params[:data] : 'data'
+    @filters = @investigator_user.present? ? %w(data network projects posts events) : %w(data projects posts)
+    @current_type = params.key?(:data) ? params[:data] : 'network'
 
     gon.server_params = { 'investigators[]': @investigator.id, name: @investigator.name }
     gon.isMobile = browser.device.mobile?
@@ -21,6 +21,8 @@ class InvestigatorsController < ApplicationController
       @filters.delete('data')
       @current_type == 'data' && @current_type = 'projects'
     end
+
+    params[:data] = @current_type
 
     if notice
       gon.notice = notice
