@@ -11,7 +11,7 @@ class InvestigatorsController < ApplicationController
     authorize! :show, @investigator
     @investigator_user = @investigator.user
     @page = params.key?(:page) && params[:page] ? params[:page].to_i : 1
-    @filters = @investigator_user.present? ? %w(data projects posts network) : %w(data projects posts)
+    @filters = @investigator_user.present? ? %w(data projects posts events network) : %w(data projects posts)
     @current_type = params.key?(:data) ? params[:data] : 'data'
 
     gon.server_params = { 'investigators[]': @investigator.id, name: @investigator.name }
@@ -41,7 +41,7 @@ class InvestigatorsController < ApplicationController
 
     @projects = @projects.uniq.sort{ |a, b| b.created_at <=> a.created_at }
 
-    @posts = Post.where(user_id: @investigator.id)
+    @posts = Post.where(user_id: @investigator_user.id)
     @events = Event.fetch_all(user: @investigator_user && @investigator_user.id || -1)
 
     if params.key?(:data) && params[:data] == 'posts'
