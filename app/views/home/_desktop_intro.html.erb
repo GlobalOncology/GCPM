@@ -14,8 +14,12 @@
             promote their work and develop collaborations in cancer control.
           </p>
           <div class="c-claim-buttons">
+          <% if user_signed_in? %>
+            <%= link_to 'Explore The Map', map_path, class: 'c-btn -primary -inverse'%>
+          <% else %>
             <%= link_to 'Login', user_session_path, class: 'c-btn -primary -inverse'%>
             <%= link_to 'Sign Up For Free', '/users/sign_up', class: 'c-btn -primary -inverse'%>
+          <% end %>
           </div>
         </div>
         <div class="column small-5">
