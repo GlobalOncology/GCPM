@@ -22,7 +22,6 @@
     },
 
     render: function() {
-      console.log('here', $('head title').text());
       this.$el.html(this.template({
         url: window.location.href,
         urlEncoded: encodeURIComponent(window.location.href),
