@@ -36,6 +36,9 @@
     </ul>
   </div></div>
 </li>
+<li class="<%= active_page?(posts_path) ? '-active' : '' %>">
+  <%= link_to (t 'blog'), posts_path %>
+</li>
 <% if path_exists?(:about_path) %>
   <li class="<%= active_page?(about_path) ? '-active' : '' %>">
     <%= link_to (t 'about'), about_path %>
