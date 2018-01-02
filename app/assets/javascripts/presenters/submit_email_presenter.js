@@ -20,7 +20,7 @@
 
       if (!this.getCookie()) {
         this.setCookie();
-        this.modal.open(this.view);
+        this.openModal();
       }
 
       this.setEvents();
@@ -29,11 +29,16 @@
 
     setEvents: function() {
       this.view.on('submit', this.submit, this);
+      this.view.on('showSignup', this.openModal, this);
     },
 
     submit: function () {
       this.closeModal();
       document.location.href = '/users/sign_up?src=homepage'
+    },
+
+    openModal: function () {
+      this.modal.open(this.view);
     },
 
     closeModal: function () {

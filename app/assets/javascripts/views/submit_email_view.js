@@ -12,6 +12,7 @@
     },
 
     initialize: function() {
+      $('.newsletter-signup-link').on('click', this.showSignup.bind(this));
     },
 
     render: function() {
@@ -26,6 +27,12 @@
     handleSubmit: function() {
       this.trigger('submit');
     },
+
+    showSignup: function() {
+      console.log('here');
+      this.trigger('showSignup');
+      return false;
+    }
 
   });
 
