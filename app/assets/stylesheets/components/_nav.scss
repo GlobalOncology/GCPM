@@ -21,6 +21,9 @@
       ul{
         display: inline-block;
         width: 49%;
+        a {
+          padding: 0;
+        }
       }
     }
     &:hover .megamenu{
