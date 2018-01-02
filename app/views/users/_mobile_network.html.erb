@@ -40,7 +40,7 @@
     <article class="c-network-list" data-name="investigators">
       <div class="l-content -br-bottom wrapper js-toggle-list">
         <h2>
-          Following (<%= @followPeople.size %>)
+          People (<%= @followPeople.size %>)
           <svg class="c-icon icon-arrow -medium -secondary">
             <use xlink:href="#icon-arrow"></use>
           </svg>
@@ -48,7 +48,7 @@
 
         <% if @followPeople.size <= 0 %>
           <div class="list">
-            <p>Not following any users</p>
+            <p>No people</p>
           </div>
         <% end %>
       </div>
@@ -60,7 +60,7 @@
     <article class="c-network-list" data-name="users">
       <div class="l-content -br-bottom wrapper js-toggle-list">
         <h2>
-          <%= t 'users' %> (<%= @followUser.size %>)
+          <%= t 'following' %> (<%= @followUser.size %>)
           <svg class="c-icon icon-arrow -medium -secondary">
             <use xlink:href="#icon-arrow"></use>
           </svg>
@@ -68,7 +68,7 @@
 
         <% if @followUser.size <= 0 %>
           <div class="list">
-            <p>No Users</p>
+            <p>Not following any users</p>
           </div>
         <% end %>
       </div>
