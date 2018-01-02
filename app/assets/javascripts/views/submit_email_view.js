@@ -29,7 +29,6 @@
     },
 
     showSignup: function() {
-      console.log('here');
       this.trigger('showSignup');
       return false;
     }
