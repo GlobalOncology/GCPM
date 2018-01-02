@@ -28,7 +28,12 @@
     },
 
     setEvents: function() {
-      this.view.on('submit', this.closeModal, this);
+      this.view.on('submit', this.submit, this);
+    },
+
+    submit: function () {
+      this.closeModal();
+      document.location.href = '/users/sign_up?src=homepage'
     },
 
     closeModal: function () {
