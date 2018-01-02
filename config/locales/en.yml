@@ -112,6 +112,7 @@ en:
   project: "Project"
   event: "Event"
   user: "User"
+  organizations: "Organizations"
 
   mailboxer:
     message_mailer:

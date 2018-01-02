@@ -26,6 +26,25 @@
       this.userManualDownload.on('download', function(){
         ga('send', 'event', 'Download', 'User Manual');
       }.bind(this))
+
+      if (gon.isMobile) {
+        $('footer a.with-megamenu').on('click', function() {
+          var megamenu = $($(this).attr('href'));
+
+          if (!megamenu) {
+            return;
+          }
+
+          if (megamenu.hasClass('active')) {
+            megamenu.removeClass('active');
+          } else {
+            $('.megamenu.active').removeClass('active');
+            megamenu.addClass('active');
+          }
+
+          return false;
+        });
+      }
     },
 
     setSubscriptions: function() {

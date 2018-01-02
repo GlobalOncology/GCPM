@@ -30,4 +30,32 @@
     }
   }
 
+  div.with-megamenu {
+    position: relative;
+  }
+
+  .megamenu{
+    position: static;
+    display: none;
+    background: #FFF;
+    white-space: normal;
+    z-index: 10;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    max-height: 300px;
+    overflow: auto;
+    margin-bottom: 30px;
+    &:before,
+    &:after{
+      display: none;
+    }
+    &.active {
+      display: block;
+    }
+    ul {
+      display: inline-block;
+      width: 49%;
+      vertical-align: top;
+    }
+  }
 }
