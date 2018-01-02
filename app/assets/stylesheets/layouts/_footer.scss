@@ -8,4 +8,20 @@
     padding-top: $box-space;
   }
 
+  .c-nav li:hover .megamenu {
+    top: auto;
+    bottom: 100%;
+    z-index: 50;
+    &:before,
+    &:after{
+      top: auto;
+      transform: translateX(-50%) rotate(180deg);
+    }
+    &:before{
+      bottom: -10px;
+    }
+    &:after{
+      bottom: -11px;
+    }
+  }
 }

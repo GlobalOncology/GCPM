@@ -1,10 +1,18 @@
 <% title 'Sign up' %>
 
-<div class="l-content">
+<div class="l-content" id="registration">
   <div class="wrapper">
     <div class="row">
       <div class="column small-12 medium-8 large-6">
-
+        <% if params[:src].present? && params[:src] == "homepage" %>
+          <div class="notice">
+            <h3>Thanks for signing up for GO Map updates.</h3>
+            <p>
+              If you'd like to post your projects and events and interact
+              with others through The Map, please continue registering below.
+            </p>
+          </div>
+        <% end %>
         <h2>Sign up</h2>
 
         <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>

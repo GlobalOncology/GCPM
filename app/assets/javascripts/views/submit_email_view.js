@@ -24,9 +24,7 @@
     },
 
     handleSubmit: function() {
-      console.log('here');
       this.trigger('submit');
-      //ga('send', 'event', 'Signup', 'Sign Up', 'sign_up');
     },
 
   });

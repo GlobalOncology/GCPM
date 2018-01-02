@@ -138,11 +138,24 @@
 }
 
 .blog-cta{
-  padding-top: 25px;
-  img{
-    width: 100%;
-    max-width: 100%;
-    height: auto;
+  margin-top: 25px;
+  padding: 40px;
+  background-image: url(/images/blog/blog-cta-bg.jpg);
+  background-size: cover;
+  background-position: 50% 50%;
+  text-align: center;
+  color: #FFF;
+
+  p {
+    margin: 0;
+  }
+
+  h3{
+    font-size: 1.5rem;
+    margin: 0;
+    & + p {
+      margin: 25px 0;
+    }
   }
 }
 
