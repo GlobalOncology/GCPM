@@ -7,10 +7,6 @@
 
     template: HandlebarsTemplates['submit_email'],
 
-    events: {
-      'submit form': 'handleSubmit'
-    },
-
     initialize: function() {
       $('.newsletter-signup-link').on('click', this.showSignup.bind(this));
     },
@@ -22,10 +18,6 @@
       this.delegateEvents();
 
       return this;
-    },
-
-    handleSubmit: function() {
-      this.trigger('submit');
     },
 
     showSignup: function() {
