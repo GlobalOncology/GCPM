@@ -101,6 +101,11 @@
       </div></div>
       <div class="row collapse">
         <div class="column small-6">
+          <%= link_to (t 'blog'), posts_path %>
+        </div>
+      </div>
+      <div class="row collapse">
+        <div class="column small-6">
           <%= link_to (t 'about'), about_path if path_exists?(:about_path) %>
         </div>
       </div>
