@@ -22,21 +22,6 @@
       <div id="search-list" class="l-content -no-br -no-top-padd wrapper -hidden"></div>
     </article>
 
-    <article>
-      <div class="l-content -br-bottom wrapper js-toggle-list">
-        <h2>Followers (<%= @followers.size %>)</h2>
-
-        <% if !@followers.any? %>
-          <div class="list">
-            <p>No followers</p>
-          </div>
-        <% end %>
-      </div>
-      <div class="list">
-        <%= render 'followers/net_list', items: @followers %>
-      </div>
-    </article>
-
     <article class="c-network-list" data-name="investigators">
       <div class="l-content -br-bottom wrapper js-toggle-list">
         <h2>
@@ -54,6 +39,21 @@
       </div>
       <div class="list">
         <%= render 'investigators/net_list', items: @followPeople %>
+      </div>
+    </article>
+
+    <article>
+      <div class="l-content -br-bottom wrapper js-toggle-list">
+        <h2>Followers (<%= @followers.size %>)</h2>
+
+        <% if !@followers.any? %>
+          <div class="list">
+            <p>No followers</p>
+          </div>
+        <% end %>
+      </div>
+      <div class="list">
+        <%= render 'followers/net_list', items: @followers %>
       </div>
     </article>
 
