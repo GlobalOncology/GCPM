@@ -59,6 +59,7 @@ class InvestigatorsController < ApplicationController
         @followCountries = @investigator_user.following_by_type('Country')
         @followOrganizations = @investigator_user.following_by_type('Organization')
         @followers = @investigator_user.followers_by_type('User')
+
       else
         @followProjects = []
         @followEvents = []
@@ -66,6 +67,8 @@ class InvestigatorsController < ApplicationController
         @followUser = []
         @followCancerTypes = []
         @followCountries = []
+        @followOrganizations = []
+        @followers = [];
       end
     elsif params.key?(:data) && params[:data] == 'events'
       @items = @events.limit(limit)
@@ -83,8 +86,8 @@ class InvestigatorsController < ApplicationController
       @followed_resource = 'Investigator'
     end
 
-    @following = @investigator_user && @investigator_user.follow_count || 0
-    @followers = @investigator_user && @investigator.followers_count || 0
+    @followingCount = @investigator_user && @investigator_user.follow_count || 0
+    @followersCount = @investigator_user && @investigator.followers_count || 0
 
     respond_with(@items)
   end

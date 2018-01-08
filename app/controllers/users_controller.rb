@@ -59,6 +59,7 @@ class UsersController < ApplicationController
       @followCountries = @user.following_by_type('Country')
       @followOrganizations = @user.following_by_type('Organization')
       @followers = @user.followers_by_type('User')
+
     elsif params.key?(:data) && params[:data] == 'posts'
       @items = @posts.first(limit)
       @more = (@posts.size > @items.size)
