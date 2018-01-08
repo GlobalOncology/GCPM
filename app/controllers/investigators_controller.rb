@@ -57,6 +57,8 @@ class InvestigatorsController < ApplicationController
         @followUser = @investigator_user.following_by_type('User')
         @followCancerTypes = @investigator_user.following_by_type('CancerType')
         @followCountries = @investigator_user.following_by_type('Country')
+        @followOrganizations = @investigator_user.following_by_type('Organization')
+        @followers = @investigator_user.followers_by_type('User')
       else
         @followProjects = []
         @followEvents = []
