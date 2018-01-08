@@ -19,6 +19,11 @@ class UsersController < ApplicationController
       @current_type == 'data' && @current_type = 'network'
     end
 
+    if browser.device.mobile?
+      @filters.delete('data')
+      @current_type == 'data' && @current_type = 'network'
+    end
+
     params[:data] = @current_type
 
     gon.server_params = {
@@ -59,6 +64,7 @@ class UsersController < ApplicationController
       @followCountries = @user.following_by_type('Country')
       @followOrganizations = @user.following_by_type('Organization')
       @followers = @user.followers_by_type('User')
+
     elsif params.key?(:data) && params[:data] == 'posts'
       @items = @posts.first(limit)
       @more = (@posts.size > @items.size)
