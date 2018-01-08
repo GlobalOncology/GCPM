@@ -18,6 +18,7 @@ class InvestigatorsController < ApplicationController
     gon.isMobile = browser.device.mobile?
 
     if gon.isMobile
+      @filters.delete('data')
       @current_type == 'data' && @current_type = 'projects'
     end
 

@@ -19,6 +19,11 @@ class UsersController < ApplicationController
       @current_type == 'data' && @current_type = 'network'
     end
 
+    if browser.device.mobile?
+      @filters.delete('data')
+      @current_type == 'data' && @current_type = 'network'
+    end
+
     params[:data] = @current_type
 
     gon.server_params = {
