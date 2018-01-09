@@ -1,4 +1,9 @@
 
+<% if params[:q] %>
+  <% title "Blog Search for " + params[:q] %>
+<% else %>
+  <% title "Blog Posts" %>
+<% end %>
 <div class="l-content posts-index">
   <div class="wrapper">
     <h1>Blog</h1>
