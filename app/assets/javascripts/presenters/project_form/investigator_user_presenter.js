@@ -19,7 +19,7 @@
       this.Input = new App.View.Input({
         el: '#investigatoruser',
         options: {
-          label: 'Investigator User Relationship',
+          label: 'Collaborator User Relationship',
           name: 'investigatorUser',
           type: 'checkbox',
           required: false,

@@ -1,52 +1,142 @@
+<% title @post.title %>
 <% investigator = User.find_by_id(@post.user_id) %>
 
-<div class="l-grid">
-  <section class="l-content-section wrapper">
-    <div class="wrapper">
-      <div class="row">
-        <div class="column small-12">
-          <h2><%= @post.title %></h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="column small-12 medium-8 align-middle">
+<% content_for :description do %><%= strip_tags(@post.body).strip().truncate(120) %><% end %>
+<% content_for :social_meta_tags do %>
+  <!-- opengraph tags -->
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="<%= strip_tags(@post.title) %>" />
+  <meta property="og:description" content="<%= strip_tags(@post.body).truncate(255).strip() %>" />
+  <meta property="og:url" content="<%= request.original_url %>" />
+  <meta property="og:site_name" content="The GO Map" />
+  <!--<meta property="og:image" content="" />-->
+  <!-- twitter tags -->
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="<%= strip_tags(@post.title) %>"/>
+  <meta name="twitter:description" content="<%= strip_tags(@post.body).truncate(255).strip() %>"/>
+  <meta name="twitter:site" content="@globalonc"/>
+  <!--<meta name="twitter:image" content=""/>-->
+  <% if investigator.twitter_account.present? %>
+  <meta name="twitter:creator" content="@<%= investigator.twitter_account %>" />
+  <% end %>
+<% end %>
 
+<div class="l-content post-show">
+  <div class="wrapper">
+    <div class="row collapse">
+      <div class="column small-9">
+        <div class="post-container">
+          <% if current_user && current_user.id === @post.user_id %>
+            <%= link_to 'Edit', edit_post_path(@post), class: 'c-btn -secondary -mini edit-post-btn' %>
+          <% end %>
+          <h1 class="post-title">
+            <%= @post.title %>
+          </h1>
+          <h3 class="post-date"><%= @post.updated_at.strftime("%B %e, %Y") %></h3>
+          <div class="post-content"><%= @post.body.html_safe %></div>
+          <div class="share-container">
+            <button class="c-btn -secondary -thin -inverse -mg-left js-share-button" data-actiona="save">
+              <%= t 'share' %>
+            </button>
+          </div>
+          <!--
           <%= link_to user_path(:data => 'network', :id => investigator.id), class: 'investigator' do %>
             <% if investigator.avatar.present? %>
-               <div class="c-avatar -ph -small -no-bg"
-                   style="background-image: url(<%= investigator.avatar_url(:thumb) %>)">
+                <div class="c-avatar -ph -small -no-bg"
+                    style="background-image: url(<%= investigator.avatar_url(:thumb) %>)">
               </div>
             <% else %>
-               <div class="c-avatar -ph -small">
+                <div class="c-avatar -ph -small">
                 <%= render 'shared/placeholder', person: investigator, size: '-av-big' %>
               </div>
             <% end %>
             <p><%= investigator.present? && investigator.try(:name) %></p>
           <% end%>
-
-        </div>
-        <div class="column small-12 medium-4 -align-right">
-          <button class="c-btn -secondary -inverse -mg-left js-share-button" data-actiona="save"><%= t 'share' %></button>
+          -->
+          <div id="disqus_thread"></div>
+          <script>
+            /*
+            var disqus_config = function () {
+              this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+              this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://global-oncology-map.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
         </div>
       </div>
-      <div class="column small-12 align-middle">
-        <p>Last update: <%= @post.updated_at.strftime("%Y-%m-%d") %></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="l-content-section wrapper">
-    <div class="wrapper">
-      <div class="row">
-        <div class="column small-12">
-          <div class="wrapper">
-            <div class="content"><%= @post.body.html_safe %></div>
-            <% if current_user && current_user.id === @post.user_id %>
-              <%= link_to 'Edit', edit_post_path(@post), class: 'c-btn -secondary' %>
-            <% end %>
+      <div class="column small-3">
+        <%= render "search" %>
+        <% if @post.categories.size > 0 %>
+          <div class="sidebar-box">
+            <h4>Categories</h4>
+            <ul>
+              <% @post.categories.each do |cat| %>
+                <li><%= link_to(cat.name, posts_path(:q => cat.name)) %></li>
+              <% end %>
+            </ul>
           </div>
-        </div>
+        <% end %>
+        <% if @post.countries.size > 0 %>
+          <div class="sidebar-box">
+            <h4>Countries</h4>
+            <ul>
+              <% for country in @post.countries do %>
+                <li><%= link_to(country.country_name, posts_path(:q => country.country_name)) %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <% if @post.projects.size > 0 %>
+          <div class="sidebar-box">
+            <h4>Projects</h4>
+            <ul>
+              <% for project in @post.projects do %>
+                <li><%= link_to(project.title, posts_path(:q => project.title)) %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <% if @post.organizations.size > 0 %>
+          <div class="sidebar-box">
+            <h4>Organizations</h4>
+            <ul>
+              <% for organization in @post.organizations do %>
+                <li><%= link_to(organization.name, posts_path(:q => organization.name)) %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <% if @post.cancer_types.size > 0 %>
+          <div class="sidebar-box">
+            <h4>Cancer Types</h4>
+            <ul>
+              <% for cancer_type in @post.cancer_types do %>
+                <li><%= link_to(cancer_type.name, posts_path(:q => cancer_type.name)) %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <% if @post.specialities.size > 0 %>
+          <div class="sidebar-box">
+            <h4>Specialities</h4>
+            <ul>
+              <% for spec in @post.specialities do %>
+                <li><%= link_to(spec.name, posts_path(:q => spec.name)) %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <%= render "cta" %>
+        <%= render "social-nav" %>
       </div>
     </div>
-  </section>
+  </div>
 </div>

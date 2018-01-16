@@ -67,6 +67,7 @@
       new App.Presenter.UserMenu();
       new App.Presenter.Notifications();
       new App.Presenter.Footer();
+      new App.Presenter.SubmitEmail();
     }
 
   });

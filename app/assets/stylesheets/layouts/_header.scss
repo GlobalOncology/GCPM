@@ -4,6 +4,17 @@
   z-index: 2;
 }
 
+.top-utility-nav {
+  text-align: right;
+  nav,
+  div{
+    display: inline-block;
+  }
+  nav {
+    padding-right: 20px;
+  }
+}
+
 #logo {
   display: block;
   max-width: rem(259px);

@@ -10,7 +10,8 @@
     },
 
     show: function(params) {
-      var newParams = _.extend({}, { data: gon.isMobile ? 'projects' : 'data' }, params);
+      //var newParams = _.extend({}, { data: gon.isMobile ? 'projects' : 'data' }, params);
+      var newParams = params;
 
       new App.Presenter.TabNav(newParams);
       new App.Presenter.FollowButton(newParams);

@@ -1,4 +1,6 @@
 <% title @organization.name %>
+<% content_for :description do %><%= strip_tags(@organization.name).strip().truncate(120) %><% end %>
+<% content_for :canonical do %><%= organization_url(@organization.slug_or_id) %><% end %>
 
 <section class="l-app -full -secondary">
   <% if !browser.device.mobile? %>

@@ -19,7 +19,7 @@
       this.Input = new App.View.Input({
         el: '#investigatoremail',
         options: {
-          label: 'Investigator Email',
+          label: 'Collaborator Email',
           placeholder: 'test@test.com',
           name: 'investigatorEmail',
           type: 'email',

@@ -1,6 +1,11 @@
 (function() {
   'use strict'
   <% template = @current_type == 'network' ? "network" : "#{@current_type}/list" %>
+  <%
+  if @current_type == 'data'
+    template = 'data/investigators'
+  end
+  %>
   var htmlContent = "<%= escape_javascript render(partial: template, locals: { items: @items, more: @more }) %>";
   $('#content').html(htmlContent);
 

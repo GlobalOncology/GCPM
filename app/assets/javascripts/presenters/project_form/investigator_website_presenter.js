@@ -19,7 +19,7 @@
       this.Input = new App.View.Input({
         el: '#investigatorwebsite',
         options: {
-          label: 'Investigator Website',
+          label: 'Collaborator Website',
           placeholder: 'http://www.example.com',
           name: 'investigatorWebsite',
           type: 'url',

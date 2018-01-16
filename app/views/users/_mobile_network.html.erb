@@ -42,10 +42,25 @@
       </div>
     </article>
 
+    <article>
+      <div class="l-content -br-bottom wrapper js-toggle-list">
+        <h2>Followers (<%= @followers.size %>)</h2>
+
+        <% if !@followers.any? %>
+          <div class="list">
+            <p>No followers</p>
+          </div>
+        <% end %>
+      </div>
+      <div class="list">
+        <%= render 'followers/net_list', items: @followers %>
+      </div>
+    </article>
+
     <article class="c-network-list" data-name="users">
       <div class="l-content -br-bottom wrapper js-toggle-list">
         <h2>
-          <%= t 'users' %> (<%= @followUser.size %>)
+          <%= t 'following' %> (<%= @followUser.size %>)
           <svg class="c-icon icon-arrow -medium -secondary">
             <use xlink:href="#icon-arrow"></use>
           </svg>
@@ -53,7 +68,7 @@
 
         <% if @followUser.size <= 0 %>
           <div class="list">
-            <p>No Users</p>
+            <p>Not following any users</p>
           </div>
         <% end %>
       </div>
@@ -165,7 +180,7 @@
                 <li class="list-item -uppercase"><%= link_to o.name, organization_path(id: o.slug), class: '-uppercase' %></li>
               <% end %>
             <% else %>
-              <p>No cancer types</p>
+              <p>No organizations</p>
             <% end %>
           </ul>
         </div>

@@ -2,7 +2,7 @@ module Api
   module V1
     class MapController < ApiController
       def index
-        type  = params[:data] && (params[:data] == 'events' || params[:data] == 'people') ? params[:data] : 'projects'
+        type  = params[:data] && (params[:data] == 'events' || params[:data] == 'people' || params[:data] == 'funded_projects' || params[:data] == 'network') ? params[:data] : 'projects'
         group = if params[:group] && ['countries', 'regions', 'points'].include?(params[:group])
                   params[:group]
                 elsif params[:id].present?
@@ -10,6 +10,7 @@ module Api
                 else
                   'regions'
                 end
+        ActiveRecord::Base.logger = Logger.new STDOUT
         query = SqlQuery.new("#{type}_map_#{group}", params: map_params)
         json_list = query.execute
         render json: json_list

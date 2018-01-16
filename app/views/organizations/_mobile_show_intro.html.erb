@@ -3,7 +3,12 @@
 <div class="l-app-title">
   <div class="row collapse -centered">
     <div class="column small-12 medium-8">
-      <h1><%= @organization.name %></h1>
+      <h1>
+        <%= @organization.name %>
+        <% if @organization.acronym != nil %>
+          <br><small><%= @organization.acronym %></small>
+        <% end %>
+      </h1>
 
       <div class="row">
         <div class="column small-12 medium-6">
@@ -36,6 +41,18 @@
         <div class="column small-12">
           <h3>Posts</h3>
           <span class="amount"><%= @posts.size %></span>
+        </div>
+        <div class="column small-12">
+          <h3>Network</h3>
+          <span class="amount"><%= @network.size %></span>
+        </div>
+        <div class="column small-12">
+          <h3>Funded Projects</h3>
+          <span class="amount"><%= @funded_projects.size %></span>
+        </div>
+        <div class="column small-12">
+          <h3>Events</h3>
+          <span class="amount"><%= @events.size %></span>
         </div>
       </div>
     </div>

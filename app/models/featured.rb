@@ -13,6 +13,10 @@
 class Featured < ApplicationRecord
   belongs_to :featurable, polymorphic: true
   def self.featurables
-    unscoped.order('weight DESC').map { |f| f.featurable }
+    unscoped.order('weight ASC').map { |f| f.featurable }
+  end
+
+  def self.home_featurables
+    unscoped.order('weight ASC').where.not(featurable_type: ['Picture', 'Widget']).limit(6).map { |f| f.featurable }
   end
 end

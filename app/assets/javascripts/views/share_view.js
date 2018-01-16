@@ -24,7 +24,8 @@
     render: function() {
       this.$el.html(this.template({
         url: window.location.href,
-        urlEncoded: encodeURIComponent(window.location.href)
+        urlEncoded: encodeURIComponent(window.location.href),
+        titleEncoded: encodeURIComponent($('head title').text())
       }));
 
       // Rebinding elements and events

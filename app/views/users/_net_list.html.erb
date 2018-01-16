@@ -44,7 +44,7 @@
             <% if e.investigator.present? %>
               <% e.investigator.organizations.each do |o|%>
                 <h3><%= link_to o.name, organization_path(o.slug) %></h3>
-                <h3><%= o.addresses.map{|a| [a.city, a.country_name]}.uniq.join(', ') %></h3>
+                <h3><%= o.addresses.map{|a| [a.city, a.country_name].join(', ')}.uniq.join(' | ') %></h3>
               <% end %>
             <% end %>
 

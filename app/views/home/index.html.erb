@@ -1,4 +1,5 @@
 <% title 'Welcome' %>
+<% content_for :description do %>The GO Map catalogs international cancer research, cancer care, and cancer outreach programs. The GO Map aligns cancer care efforts of governmental agencies, non-profit organizations, academic institutions and industry partners.<% end %>
 <%= render "shared/icons_home" %>
 
 <% if browser.device.mobile? %>
@@ -9,6 +10,19 @@
 
 <section class="l-grid" id="content">
   <%= render 'home/list' %>
+</section>
+
+<section class="l-content wrapper">
+  <div class="row collapse align-center">
+    <div class="column small-12 home-sponsors">
+      <h2>Our Sponsors</h2>
+      <div class="logos">
+        <img src="/images/home/elekta-logo.gif" alt="Elekta">
+        <img src="/images/home/rutgers-logo.gif" alt="Rutgers Global Health Initiative">
+        <img src="/images/home/stanford-logo.gif" alt="Stanford Center For Innovation In Global Health">
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="l-content wrapper">

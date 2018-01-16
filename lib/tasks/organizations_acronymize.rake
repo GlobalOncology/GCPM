@@ -5,8 +5,10 @@ namespace :organizations do
     file = 'data/acronyms.csv'
     CSV.foreach(file, :headers => true) do |row|
       org = Organization.find_by(grid_id: row['grid_id'])
-      org.acronym = row['acronym']
-      org.save!
+      if org
+        org.acronym = row['acronym']
+        org.save!
+      end
     end
     puts "Acronyms created"
   end

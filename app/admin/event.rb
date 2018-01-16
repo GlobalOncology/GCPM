@@ -2,7 +2,7 @@ ActiveAdmin.register Event do
   extend Featurable
   menu parent: "Entities", priority: 2
 
-  permit_params :title, :description, :website, :excerpt, :participants, :start_date, :end_date, :private, :online, :address, :address2, :city, :country, :state, :latitude, :longitude, :postcode, :user_id
+  permit_params :title, :description, :website, :excerpt, :participants, :start_date, :end_date, :private, :online, :address, :address2, :city, :country, :state, :latitude, :longitude, :postcode, :user_id, :organization_id
 
   index do
     selectable_column
@@ -24,6 +24,7 @@ ActiveAdmin.register Event do
     f.inputs do
       f.input :title
       f.input :description, as: :ckeditor
+      f.input :organization_id
       f.input :website, as: :string
       f.input :excerpt
       f.input :participants

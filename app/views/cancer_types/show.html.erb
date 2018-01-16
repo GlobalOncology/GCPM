@@ -1,4 +1,6 @@
 <% title @cancer_type.name %>
+<% content_for :description do %><%= strip_tags(@cancer_type.name).strip().truncate(120) %><% end %>
+<% content_for :canonical do %><%= cancer_type_url(@cancer_type.slug_or_id) %><% end %>
 
 <section class="l-app -full -secondary">
   <% if !browser.device.mobile? %>

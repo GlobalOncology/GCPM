@@ -1,5 +1,6 @@
 ActiveAdmin.register User do
   menu parent: 'Network', priority: 1
+  extend Featurable
 
   permit_params :email, :name, :position, :twitter_account, :linkedin_account, :pubmed, :role, :is_active, :terms
 
@@ -15,7 +16,13 @@ ActiveAdmin.register User do
     column :email
     column :role
     column :is_active
-    actions
+    actions do |obj|
+      if obj.featured?
+        link_to("Unfeature", unfeature_admin_user_path(obj))
+      else
+        link_to("Feature", feature_admin_user_path(obj))
+      end
+    end
   end
 
   form do |f|

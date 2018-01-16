@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
   def show
     @page = params.key?(:page) && params[:page] ? params[:page].to_i : 1
-    @filters = %w(network projects posts events)
+    @filters = %w(data network projects posts events)
 
     if current_user == @user
       @filters.push('messages')
@@ -14,18 +14,46 @@ class UsersController < ApplicationController
 
     @current_type = params.key?(:data) ? params[:data] : 'projects'
 
-    gon.server_params = { 'user': @investigator.present? ? @investigator.id : '0' }
+    if !@investigator.present?
+      @filters.delete('data');
+      @current_type == 'data' && @current_type = 'network'
+    end
+
+    if browser.device.mobile?
+      @filters.delete('data')
+      @current_type == 'data' && @current_type = 'network'
+    end
+
+    params[:data] = @current_type
+
+    gon.server_params = {
+      'user': @investigator.present? ? @investigator.id : '0',
+      'investigators[]': @investigator.present? ? @investigator.id : '0',
+      'name': @investigator.present? ? @investigator.name : ''
+    }
     gon.userId = current_user.id
     gon.unreadCount = current_user.unread_inbox_count
     gon.isMobile = browser.device.mobile?
 
     limit = 12 + (@page * 9)
 
-    @projects = @user.projects.order('created_at DESC')
+    @projects = @user.projects.to_a
+
+    if @user.investigator.present?
+      @investigatorProjects = @user.investigator.projects
+      if @investigatorProjects.size > 0
+        @projects.concat(@investigatorProjects.to_a)
+      end
+    end
+
+    @projects = @projects.uniq.sort{ |a, b| b.created_at <=> a.created_at }
+
     @people = @user.investigator
     @posts = @user.posts
     @events = @user.events.order_by_upcoming
     @conversations = Mailboxer::Conversation.joins(:receipts).where(mailboxer_receipts: { receiver_id: current_user.id, deleted: false }).uniq.page(params[:page]).order('created_at DESC')
+    @followingCount = @user.following_users_count || 0
+    @followersCount = @user.followers_by_type_count('User') || 0
 
     if params.key?(:data) && params[:data] == 'network'
       @followProjects = @user.following_by_type('Project')
@@ -35,6 +63,8 @@ class UsersController < ApplicationController
       @followCancerTypes = @user.following_by_type('CancerType')
       @followCountries = @user.following_by_type('Country')
       @followOrganizations = @user.following_by_type('Organization')
+      @followers = @user.followers_by_type('User')
+
     elsif params.key?(:data) && params[:data] == 'posts'
       @items = @posts.first(limit)
       @more = (@posts.size > @items.size)
@@ -48,7 +78,7 @@ class UsersController < ApplicationController
       @more = (@conversations.size > @items.size)
       @items_total = @conversations.size
     else
-      @items = @projects.limit(limit)
+      @items = @projects.slice(0, limit)
       @more = (@projects.size > @items.size)
       @items_total = @projects.size
     end
@@ -58,9 +88,6 @@ class UsersController < ApplicationController
       @followed_id = @user.id
       @followed_resource = 'User'
     end
-
-    @following = @user.following_users_count || 0
-    @followers = @user.followers_by_type_count('User') || 0
 
     respond_with(@items)
   end

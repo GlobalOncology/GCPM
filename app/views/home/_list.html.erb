@@ -1,117 +1,185 @@
-<div class="row collapse">
-  <% if @featureds.any? %>
-    <% @featureds.each_with_index do |featured, index| %>
-      <% case featured.class.to_s.downcase %>
-        <% when 'project' %>
-          <div class="column small-12 medium-4">
-            <div class="c-card -projects">
-              <h3 class="-underlined">
-                <% if featured.project_leads.first.present? %>
-                  <%= link_to featured.project_leads.first.try(:name), investigator_path(featured.project_leads.first.slug_or_id) %>
-                <% end %>
-              </h3>
-
-              <h2><%= link_to featured.title, project_path(featured.slug_or_id) %></h2>
-
-              <p>
-                <% featured.cancer_types.each do |t| %>
-                  <span class="c-tag -mg">
-                    <%= link_to t.name, cancer_path(t.slug_or_id) %>
-                  </span>
-                <% end %>
-              </p>
-
-              <p>
-                <% featured.specialities.each do |sp| %>
-                  <span class="c-tag -mg -darker">
-                    <%= link_to sp.name, speciality_path(sp.slug_or_id) %>
-                  </span>
-                <% end %>
-              </p>
-            </div>
-          </div>
-
-        <% when 'event' %>
-          <div class="column small-12 medium-4">
-            <div class="c-card -events">  <!-- use -inverse if you want to fill the card -->
-              <% if featured.country? %>
-                <h3 class="-underlined -alternative">
-                  <% country = Country.find_by( country_name: featured.country ) %>
-                  <!-- TODO: In case country dosen't exist -->
-                  <% if country %>
-                    <%= link_to featured.city + ', ' + featured.country, country_path(country.country_iso_3) %>
-                  <% end %>
-                </h3>
-              <% end %>
-              <h2><%= link_to featured.title, event_path(featured.slug_or_id) %></h2>
-              <p><%= truncate_html(featured.description, :length => 300, :omission => "...").html_safe %></p>
-              <p>
-                <% if featured.start_date.present? %>
-                  <span><%= featured.start_date %></span>
-                <% else %>
-                  <span>-</span>
-                <% end %>
-                /
-                <% if featured.end_date.present? %>
-                  <span><%= featured.end_date %></span>
-                <% else %>
-                  <span>-</span>
-                <% end %>
-              </p>
-
-            </div>
-          </div>
-
-        <% when 'organization' %>
-          <div class="column small-12 medium-4">
-            <div class="c-card">  <!-- use -inverse if you want to fill the card -->
-              <h3 class="-underlined">
-                Organization
-              </h3>
-              <h2><%= link_to featured.name, organization_path(featured.slug_or_id) %></h2>
-            </div>
-          </div>
-
-        <% when 'post' %>
-          <div class="column small-12 medium-4">
-            <div class="c-card">  <!-- use -inverse if you want to fill the card -->
-              <h3 class="-underlined">
-                Post
-              </h3>
-              <h2><%= link_to featured.title, post_path(featured.slug_or_id) %></h2>
-            </div>
-          </div>
-
-        <% when 'investigator' %>
-          <div class="column small-12 medium-4">
-            <div class="c-card -person">
-              <div class="icons">
-                <% if featured.user.present? && featured.user.avatar.present? %>
-                  <div class="c-avatar -ph -mg-bt"
-                     style="background-image: url(<%= featured.user.avatar_url(:thumb) %>)">
+<div class="home-featured">
+  <div class="row">
+    <div class="column small-12 featured-heading">
+      <h2>Did You Know?</h2>
+    </div>
+  </div>
+  <div class="row collapse">
+    <% if @featureds.any? %>
+      <% @featureds.each_with_index do |featured, index| %>
+        <% case featured.class.to_s.downcase %>
+          <% when 'project' %>
+            <div class="column small-12 medium-4">
+              <div class="featured-card -projects">
+                <div class="title">
+                  <small><%= t('featured') %></small>
+                  <small><%= t('project') %></small>
+                </div>
+                <div class="content">
+                  <h2><%= link_to featured.title, project_path(featured.slug_or_id) %></h2>
+                  <p>
+                    <% featured.cancer_types.each do |t| %>
+                      <span class="c-tag -mg">
+                        <%= link_to t.name, cancer_path(t.slug_or_id) %>
+                      </span>
+                    <% end %>
+                  </p>
+                  <p>
+                    <% featured.specialities.each do |sp| %>
+                      <span class="c-tag -mg -darker">
+                        <%= link_to sp.name, speciality_path(sp.slug_or_id) %>
+                      </span>
+                    <% end %>
+                  </p>
+                  <div class="view-all-container">
+                    <%= link_to(t('view_all_projects'), map_path(:data => "projects"), :class => 'c-btn -primary -inverse') %>
                   </div>
-                <% else %>
-                  <div class="c-avatar -ph -mg-bt">
-                    <%= render 'shared/placeholder', person: featured, size: '-av-normal' %>
-                  </div>
-                <% end %>
-              </div>
-
-              <div>
-                <h2><%= link_to featured.name, investigator_path(featured.slug_or_id) %></h2>
-                <% featured.organizations.each do |o|%>
-                  <h3><%= link_to o.name, organization_path(o.slug_or_id) %></h3>
-                  <h3><%= o.addresses.map{|a| [a.city, a.country_name]}.uniq.join(', ') %></h3>
-                <% end %>
+                </div>
               </div>
             </div>
-          </div>
 
-        <% when 'picture' %>
-          <div class="c-picture column small-12 medium-4" style="background-image: url(<%= featured.image_url(:square) %>)">
-          </div>
+          <% when 'event' %>
+            <div class="column small-12 medium-4">
+              <div class="featured-card -events">  <!-- use -inverse if you want to fill the card -->
+                <div class="title">
+                  <small><%= t('featured') %></small>
+                  <small><%= t('event') %></small>
+                </div>
+                <div class="content">
+                  <h2><%= link_to featured.title, event_path(featured.slug_or_id) %></h2>
+                  <div class="view-all-container">
+                    <%= link_to(t('view_all_events'), map_path(:data => "events", :sortby => "upcoming", :global => "all"), :class => 'c-btn -alternative -inverse') %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <% when 'organization' %>
+            <div class="column small-12 medium-4">
+              <div class="featured-card -organizations">  <!-- use -inverse if you want to fill the card -->
+                <div class="title">
+                  <small><%= t('featured') %></small>
+                  <small><%= t('organization') %></small>
+                </div>
+                <div class="content">
+                  <h2><%= link_to featured.name, organization_path(featured.slug_or_id) %></h2>
+                  <div class="project-stats">
+                    <ul>
+                      <li>
+                        <div>
+                          <div class="count"><%= featured.projects.size %></div>
+                          <div class="type">Projects</div>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <div class="count"><%= featured.investigators.size %></div>
+                          <div class="type">People</div>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <div class="count"><%= featured.posts.size %></div>
+                          <div class="type">Posts</div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <!--
+                  <div class="view-all-container">
+                    <%= link_to(t('view_all_organizations'), '#', :class => 'c-btn -primary -inverse') %>
+                  </div>
+                  -->
+                </div>
+              </div>
+            </div>
+
+          <% when 'post' %>
+            <div class="column small-12 medium-4">
+              <div class="featured-card -posts">  <!-- use -inverse if you want to fill the card -->
+                <div class="title">
+                  <small><%= t('featured') %></small>
+                  <small><%= t('blog_post') %></small>
+                </div>
+                <div class="content">
+                  <h2><%= link_to featured.title, post_path(featured.slug_or_id) %></h2>
+                  <h3><%= featured.updated_at.strftime("%B %e, %Y") %></h3>
+                  <div class="view-all-container">
+                    <%= link_to(t('view_all_blog_posts'), posts_path(), :class => 'c-btn -secondary -inverse') %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <% when 'investigator' %>
+            <div class="column small-12 medium-4">
+              <div class="featured-card -collaborator">
+                <div class="title">
+                  <small><%= t('featured') %></small>
+                  <small><%= t('collaborator') %></small>
+                </div>
+                <div class="content">
+                  <div class="icons">
+                    <% if featured.user.present? && featured.user.avatar.present? %>
+                      <div class="c-avatar -ph -mg-bt"
+                        style="background-image: url(<%= featured.user.avatar_url(:thumb) %>)">
+                      </div>
+                    <% else %>
+                      <div class="c-avatar -ph -mg-bt">
+                        <%= render 'shared/placeholder', person: featured, size: '-av-normal' %>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div>
+                    <h2><%= link_to featured.name, investigator_path(featured.slug_or_id) %></h2>
+                    <% featured.organizations.each do |o|%>
+                      <h3><%= link_to o.name, organization_path(o.slug_or_id) %></h3>
+                      <h3><%= o.addresses.map{|a| [a.city, a.country_name].join(', ')}.uniq.join(' | ') %></h3>
+                    <% end %>
+                  </div>
+                  <div class="view-all-container">
+                    <%= link_to(t('view_all_collaborators'), map_path(:data => "people"), :class => 'c-btn -primary -inverse') %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <% when 'user' %>
+            <div class="column small-12 medium-4">
+              <div class="featured-card -user">
+                <div class="title">
+                  <small><%= t('featured') %></small>
+                  <small><%= t('user') %></small>
+                </div>
+                <div class="content">
+                  <div class="icons">
+                    <% if featured.avatar.present? %>
+                      <div class="c-avatar -ph -mg-bt"
+                        style="background-image: url(<%= featured.avatar_url(:thumb) %>)">
+                      </div>
+                    <% else %>
+                      <div class="c-avatar -ph -mg-bt">
+                        <%= render 'shared/placeholder', person: featured, size: '-av-normal' %>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div>
+                    <h2><%= link_to featured.name, user_path(featured.slug_or_id) %></h2>
+                    <% if featured.investigator.present? %>
+                      <% featured.investigator.organizations.each do |o|%>
+                        <h3><%= link_to o.name, organization_path(o.slug_or_id) %></h3>
+                        <h3><%= o.addresses.map{|a| [a.city, a.country_name].join(', ')}.uniq.join(' | ') %></h3>
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <div class="view-all-container">
+                    <%= link_to(t('view_all_users'), '/map?data=people', :class => 'c-btn -primary -inverse') %>
+                  </div>
+                </div>
+              </div>
+            </div>
+        <% end %>
       <% end %>
     <% end %>
-  <% end %>
-</div>
+  </div>
 </div>

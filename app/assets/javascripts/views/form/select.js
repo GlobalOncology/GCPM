@@ -75,12 +75,12 @@
     },
 
     addNew: function(option){
-      var obj = {
+      /*var obj = {
         id: option.cid,
         value: JSON.stringify(option.attributes),
         name: option.attributes.name
-      };
-      this.options.options.unshift(obj);
+      };*/
+      this.options.options.unshift(option);
       this.render();
     },
 

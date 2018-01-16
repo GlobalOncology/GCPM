@@ -2,7 +2,7 @@
   <%= render 'mobile_network' %>
 
   <div class="c-claim -primary -smaller">
-    <h1 class="js-action-network">Join the network</h1>
+    <h1 class="js-action-network">The GO Map</h1>
   </div>
 </section>
 
@@ -14,8 +14,18 @@
   </div>
   <div class="l-app-claim">
     <div class="c-claim">
-      <h1>Discover projects <br> and much more</h1>
-      <%= link_to 'Explore the map', map_path, class: 'link' %>
+      <p>
+        The GO Map is a free tool that helps users initiate partnerships,
+        promote their work and develop collaborations in cancer control.
+      </p>
+      <div class="c-claim-buttons">
+        <% if user_signed_in? %>
+          <%= link_to 'Explore The Map', map_path, class: 'c-btn -primary -inverse'%>
+        <% else %>
+          <%= link_to 'Login', user_session_path, class: 'c-btn -primary -inverse'%>
+          <%= link_to 'Sign Up For Free', '/users/sign_up', class: 'c-btn -primary -inverse'%>
+        <% end %>
+      </div>
     </div>
   </div>
   <% if !browser.device.mobile? %>
@@ -26,7 +36,7 @@
     </div>
   <% end %>
 </section>
-
+<!--
 <% if browser.device.mobile? %>
   <section>
       <div class="l-app-bottombar">
@@ -36,3 +46,4 @@
       </div>
   </section>
 <% end %>
+-->

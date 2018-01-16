@@ -32,6 +32,16 @@
         el: '#map-search'
       });
 
+      this.organization_id = new App.Presenter.Organization({
+        DOMelement: "#organization-1",
+        name: "event[organization_id]",
+        label: null,
+        required: false,
+        addNew: false,
+        multiple: false,
+        placeholder: 'No Organization'
+      });
+
       this.view = new App.View.Map({
         el: '#map',
         options: {
@@ -50,6 +60,7 @@
     render: function() {
       this.pickdate_start.render();
       this.pickdate_end.render();
+      this.organization_id.render();
 
       this.countries.fetch().done(function(){
         this.options = this.countries.toJSON().map(function(country){

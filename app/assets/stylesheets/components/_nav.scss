@@ -7,6 +7,119 @@
   }
 }
 
+.c-nav{
+  li{
+    .megamenu{
+      position: absolute;
+      left: -999em;
+      border: 1px solid #e5e5e5;
+      & > div{
+        width: 420px;
+        max-height: 500px;
+        padding: 15px 15px 5px;
+      }
+      ul{
+        display: inline-block;
+        width: 49%;
+        a {
+          padding: 0;
+        }
+      }
+    }
+    &:hover .megamenu{
+      transform: translateX(-37%);
+      display: block;
+      left: auto;
+      top: 100%;
+    }
+  }
+}
+
+.c-nav,
+.c-menu-mobile{
+  li{
+    position: relative;
+  }
+}
+
+.megamenu{
+  display: none;
+  background: #FFF;
+  white-space: normal;
+  z-index: 10;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  & > div{
+    overflow-y: auto;
+  }
+  &:before{
+    position: absolute;
+    display: block;
+    content: '';
+    top: -10px;
+    left: 50%;
+    border-bottom: 10px solid #FFF;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    transform: translateX(-50%);
+    z-index: 12;
+  }
+  &:after{
+    position: absolute;
+    display: block;
+    content: '';
+    top: -11px;
+    left: 50%;
+    border-bottom: 10px solid #e5e5e5;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    transform: translateX(-50%);
+    z-index: 11;
+  }
+  ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    li{
+      margin: 0;
+      padding: 0 0 10px;
+      a{
+        display: inline;
+        padding: 0;
+        line-height: 1em;
+        &:hover{
+          color: #5aade4;
+        }
+      }
+    }
+  }
+}
+
+.c-menu-mobile{
+  li{
+    .megamenu{
+      position: relative;
+      border-top: 1px solid #e5e5e5;
+      border-bottom: 1px solid #e5e5e5;
+      margin-top: 8px;
+      margin-bottom: 10px;
+      & > div{
+        max-height: 50vh;
+        padding: 15px 30px 15px 60px;
+      }
+      &:before,
+      &:after{
+        left: 70px;
+      }
+    }
+    .megamenu.active{
+      display: block;
+      left: auto;
+      top: 100%;
+    }
+  }
+}
+
 .c-nav,
 .c-nav > ul {
   @extend %clearlist;

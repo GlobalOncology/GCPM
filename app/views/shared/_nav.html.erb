@@ -5,7 +5,39 @@
   <%= link_to (t 'countries'), countries_path %>
 </li>
 <li class="<%= active_page?(cancers_path) ? '-active' : '' %>">
-  <%= link_to (t 'cancer_types'), cancers_path %>
+  <%= link_to (t 'cancer_types'), cancers_path, :class=>'with-megamenu' %>
+  <div class="megamenu"><div>
+    <ul>
+      <% i = 0 %>
+      <% for cancerType in @mega_menu_cancer_types %>
+        <li><%= link_to(cancerType.name, cancer_path(cancerType.slug)) %></li>
+        <% i = i + 1 %>
+        <% if i == (@mega_menu_cancer_types.size / 2).round %>
+          </ul>
+          <ul>
+        <% end %>
+      <% end %>
+    </ul>
+  </div></div>
+</li>
+<li>
+  <a href="#" class="with-megamenu">Specialities</a>
+  <div class="megamenu"><div>
+    <ul>
+      <% i = 0 %>
+      <% for spec in @mega_menu_specialities %>
+        <li><%= link_to(spec.name, speciality_path(spec.slug)) %></li>
+        <% i = i + 1 %>
+        <% if i == (@mega_menu_specialities.size / 2).round %>
+          </ul>
+          <ul>
+        <% end %>
+      <% end %>
+    </ul>
+  </div></div>
+</li>
+<li class="<%= active_page?(posts_path) ? '-active' : '' %>">
+  <%= link_to (t 'blog'), posts_path %>
 </li>
 <% if path_exists?(:about_path) %>
   <li class="<%= active_page?(about_path) ? '-active' : '' %>">
