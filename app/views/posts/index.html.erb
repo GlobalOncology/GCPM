@@ -6,7 +6,12 @@
 <% end %>
 <div class="l-content posts-index">
   <div class="wrapper">
-    <h1>Blog</h1>
+    <div class="row collapse">
+      <div class="column small-9">
+        <h1 style="float:left;">Blog</h1>
+          <%= link_to('+ Post', (user_signed_in?) ? new_post_path : user_session_path, :class => 'c-btn -secondary -inverse', :style => 'float: right') %>
+      </div>
+    </div>
     <p class="lead">The latest cancer news and updates from around the world.</p>
     <div class="row collapse">
       <div class="column small-9">
